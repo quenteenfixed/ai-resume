@@ -3,6 +3,8 @@
 > 覃涛 / Qin Tao — AI 产品开发工程师 | 现居武汉市
 >
 > 从数据采集到智能预测到内容营销的全链路工具栈构建
+>
+>【线上预览简历】https://quenteenfixed.github.io/ai-resume/resume.html
 
 ## 个人信息
 
