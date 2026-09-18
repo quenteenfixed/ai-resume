@@ -137,14 +137,7 @@ Docker Compose · Nginx · systemd · CI/CD脚本 · 健康检查 · 镜像回�
 
 ## 在线预览
 
-打开 `resume.html` 即可在浏览器中查看完整简历。
-
-```bash
-open resume.html
-# 或
-python3 -m http.server 8080
-# 然后访问 http://localhost:8080/resume.html
-```
+https://quenteenfixed.github.io/ai-resume/resume.html
 
 ## License
 
