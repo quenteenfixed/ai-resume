@@ -125,13 +125,13 @@ PostgreSQL 15 · SQLite · JSON文件存储 · S3对象存储 · Docker Volume
 Docker Compose · Nginx · systemd · CI/CD脚本 · 健康检查 · 镜像回滚 · Shell自动化
 
 ## 线上成品展示
-1. [展示 1](https://github.com/quenteenfixed/ai-resume/showcase/aiball-index-01.png)
-2. [展示 2](https://github.com/quenteenfixed/ai-resume/showcase/aiball-index-02.png)
-3. [展示 3](https://github.com/quenteenfixed/ai-resume/showcase/aiball-index-03.png)
-4. [展示 4](https://github.com/quenteenfixed/ai-resume/showcase/aiball-index-04.png)
-5. [展示 5](https://github.com/quenteenfixed/ai-resume/showcase/aiball-match-01.png)
-6. [展示 6](https://github.com/quenteenfixed/ai-resume/showcase/aiball-match-02.png)
-7. [展示 7](https://github.com/quenteenfixed/ai-resume/showcase/aiball-match-03.png)
+1. [展示 1](https://quenteenfixed.github.io/ai-resume/showcase/aiball-index-01.png)
+2. [展示 2](https://quenteenfixed.github.io/ai-resume/showcase/aiball-index-02.png)
+3. [展示 3](https://quenteenfixed.github.io/ai-resume/showcase/aiball-index-03.png)
+4. [展示 4](https://quenteenfixed.github.io/ai-resume/showcase/aiball-index-04.png)
+5. [展示 5](https://quenteenfixed.github.io/ai-resume/showcase/aiball-match-01.png)
+6. [展示 6](https://quenteenfixed.github.io/ai-resume/showcase/aiball-match-02.png)
+7. [展示 7](https://quenteenfixed.github.io/ai-resume/showcase/aiball-match-03.png)
 
 ## 在线预览
 
