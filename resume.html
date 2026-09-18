@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品开发工程师简历</title>
+    <style>
+         :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #1c2330;
+            --bg-card: #1a2234;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #bc8cff;
+            --accent-orange: #f0883e;
+            --accent-cyan: #39d0d8;
+            --accent-pink: #f778ba;
+            --accent-yellow: #e3b341;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --border: #30363d;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-6: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        /* ===== Hero Section ===== */
+        
+        .hero {
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1f3a 100%);
+            padding: 80px 0 60px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(188, 140, 255, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--accent-blue);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #e6edf3 0%, #58a6ff 50%, #bc8cff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 22px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .hero-meta a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .hero-meta a:hover {
+            color: var(--accent-blue);
+        }
+        /* ===== Section Headers ===== */
+        
+        .section {
+            padding: 64px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .section-header {
+            margin-bottom: 40px;
+        }
+        
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-header h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--gradient-3);
+            border-radius: 2px;
+        }
+        
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        /* ===== Summary ===== */
+        
+        .summary-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .summary-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-3);
+        }
+        
+        .summary-box p {
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--text-primary);
+        }
+        
+        .summary-box p+p {
+            margin-top: 16px;
+        }
+        
+        .summary-highlights {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 28px;
+        }
+        
+        .highlight-item {
+            text-align: center;
+            padding: 20px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .highlight-num {
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .highlight-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+        /* ===== Skills Grid ===== */
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        
+        .skill-card:hover {
+            border-color: rgba(88, 166, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .skill-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .skill-card h3 .icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-tag {
+            padding: 5px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        
+        .skill-tag:hover {
+            border-color: rgba(88, 166, 255, 0.3);
+            color: var(--text-primary);
+        }
+        
+        .skill-tag.primary {
+            background: rgba(88, 166, 255, 0.08);
+            border-color: rgba(88, 166, 255, 0.25);
+            color: var(--accent-blue);
+        }
+        /* ===== Architecture Overview ===== */
+        
+        .arch-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+        }
+        
+        .arch-row {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+        }
+        
+        .arch-layer-label {
+            flex-shrink: 0;
+            width: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-right: 1px solid var(--border);
+            padding-right: 16px;
+            text-align: right;
+        }
+        
+        .arch-items {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+        
+        .arch-item {
+            flex: 1;
+            min-width: 180px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+        
+        .arch-item .arch-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .arch-item .arch-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .arch-arrow {
+            text-align: center;
+            font-size: 20px;
+            color: var(--text-muted);
+            line-height: 1;
+        }
+        /* ===== Project Cards ===== */
+        
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: border-color 0.2s;
+        }
+        
+        .project-card:hover {
+            border-color: rgba(88, 166, 255, 0.3);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 16px;
+        }
+        
+        .project-title-group {
+            flex: 1;
+        }
+        
+        .project-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .project-card:nth-child(1) .project-number {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent-blue);
+        }
+        
+        .project-card:nth-child(2) .project-number {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .project-card:nth-child(3) .project-number {
+            background: rgba(188, 140, 255, 0.15);
+            color: var(--accent-purple);
+        }
+        
+        .project-card:nth-child(4) .project-number {
+            background: rgba(240, 136, 62, 0.15);
+            color: var(--accent-orange);
+        }
+        
+        .project-card:nth-child(5) .project-number {
+            background: rgba(57, 208, 216, 0.15);
+            color: var(--accent-cyan);
+        }
+        
+        .project-card:nth-child(6) .project-number {
+            background: rgba(247, 120, 186, 0.15);
+            color: var(--accent-pink);
+        }
+        
+        .project-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        
+        .project-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        
+        .project-link {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        
+        .project-link:hover {
+            border-color: rgba(88, 166, 255, 0.4);
+            color: var(--accent-blue);
+        }
+        
+        .project-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .project-section h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .project-desc {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            opacity: 0.6;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        
+        .tech-pill {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+        }
+        
+        .tech-pill.lang {
+            color: var(--accent-blue);
+            border-color: rgba(88, 166, 255, 0.2);
+        }
+        
+        .tech-pill.frame {
+            color: var(--accent-green);
+            border-color: rgba(63, 185, 80, 0.2);
+        }
+        
+        .tech-pill.db {
+            color: var(--accent-purple);
+            border-color: rgba(188, 140, 255, 0.2);
+        }
+        
+        .tech-pill.ai {
+            color: var(--accent-orange);
+            border-color: rgba(240, 136, 62, 0.2);
+        }
+        
+        .tech-pill.tool {
+            color: var(--accent-cyan);
+            border-color: rgba(57, 208, 216, 0.2);
+        }
+        
+        .tech-pill.fmt {
+            color: var(--accent-pink);
+            border-color: rgba(247, 120, 186, 0.2);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+        
+        .metric-box {
+            padding: 10px 14px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .metric-val {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        /* ===== Profile / Personal Info ===== */
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            border-radius: 2px;
+        }
+        
+        .info-card.blue::before {
+            background: var(--gradient-3);
+        }
+        
+        .info-card.green::before {
+            background: var(--gradient-4);
+        }
+        
+        .info-card.purple::before {
+            background: linear-gradient(180deg, #bc8cff, #667eea);
+        }
+        
+        .info-card.orange::before {
+            background: linear-gradient(180deg, #f0883e, #e3b341);
+        }
+        
+        .info-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-card h3 .icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .info-row {
+            display: flex;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+            font-size: 14px;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            flex-shrink: 0;
+            width: 80px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .info-value {
+            color: var(--text-primary);
+            flex: 1;
+        }
+        
+        .info-value a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+        
+        .info-value a:hover {
+            text-decoration: underline;
+        }
+        /* ===== Timeline ===== */
+        
+        .timeline {
+            position: relative;
+            padding-left: 28px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple), var(--accent-green));
+            border-radius: 1px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 28px;
+        }
+        
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -28px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            z-index: 1;
+        }
+        
+        .timeline-dot.blue {
+            background: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+        }
+        
+        .timeline-dot.green {
+            background: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(63, 185, 80, 0.2);
+        }
+        
+        .timeline-dot.purple {
+            background: var(--accent-purple);
+            box-shadow: 0 0 0 2px rgba(188, 140, 255, 0.2);
+        }
+        
+        .timeline-dot.orange {
+            background: var(--accent-orange);
+            box-shadow: 0 0 0 2px rgba(240, 136, 62, 0.2);
+        }
+        
+        .timeline-date {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-org {
+            font-size: 14px;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+        }
+        
+        .timeline-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        /* ===== AI Philosophy ===== */
+        
+        .philosophy-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 36px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .philosophy-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+        }
+        
+        .philosophy-quote {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-blue);
+        }
+        
+        .philosophy-text {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+        
+        .philosophy-text+.philosophy-text {
+            margin-top: 14px;
+        }
+        
+        .ai-conversations {
+            margin-top: 28px;
+        }
+        
+        .ai-conversations h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        
+        .conversation-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .conversation-item {
+            padding: 14px 18px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .conversation-item:hover {
+            border-color: rgba(88, 166, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        
+        .conversation-num {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-blue);
+        }
+        
+        .conversation-title {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .conversation-item:hover .conversation-title {
+            color: var(--text-primary);
+        }
+        /* ===== Footer ===== */
+        
+        .footer {
+            padding: 48px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+        /* ===== Responsive ===== */
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            .summary-highlights {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .project-body {
+                grid-template-columns: 1fr;
+            }
+            .arch-row {
+                flex-direction: column;
+            }
+            .arch-layer-label {
+                width: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 0 0 8px 0;
+                text-align: left;
+            }
+            .arch-items {
+                flex-direction: column;
+            }
+            .arch-item {
+                min-width: auto;
+            }
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+            .conversation-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .summary-highlights {
+                grid-template-columns: 1fr;
+            }
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="hero-tag">AI Product Development Engineer</span>
+            <h1>覃涛 / Qin Tao</h1>
+            <p class="hero-subtitle">AI 产品开发工程师 — 从数据采集到智能预测到内容营销的全链路工具栈构建</p>
+            <div class="hero-meta">
+                <span>现居: 武汉市</span>
+                <span>GitHub: <a href="https://github.com/quenteenfixed" target="_blank">@quenteenfixed</a></span>
+                <span>学历: 硕士研究生</span>
+                <span>工作经历: 百度研发中心 + 自主创业</span>
+                <span>项目数: 6 个完整产品级系统</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Personal Info ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>个人信息</h2>
+                <p>教育背景、工作经历与个人爱好</p>
+            </div>
+            <div class="profile-grid">
+
+                <!-- Education -->
+                <div class="info-card blue">
+                    <h3><span class="icon" style="background:rgba(88,166,255,0.15);color:var(--accent-blue);">E</span> 教育背景</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot blue"></div>
+                            <div class="timeline-date">2009.09 ~ 2012.06</div>
+                            <div class="timeline-title">硕士研究生</div>
+                            <div class="timeline-org">中南大学</div>
+                            <div class="timeline-desc">计算机相关专业，深入掌握算法、数据结构与系统工程方法，为后续大型系统架构设计奠定理论基础。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot blue"></div>
+                            <div class="timeline-date">2005.09 ~ 2009.06</div>
+                            <div class="timeline-title">本科</div>
+                            <div class="timeline-org">中南大学</div>
+                            <div class="timeline-desc">本科阶段建立扎实的计算机科学知识体系，培养工程化思维与编程实践能力。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Experience -->
+                <div class="info-card green">
+                    <h3><span class="icon" style="background:rgba(63,185,80,0.15);color:var(--accent-green);">W</span> 工作经历</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot green"></div>
+                            <div class="timeline-date">2019 ~ 至今</div>
+                            <div class="timeline-title">自主创业 / AI 产品开发工程师</div>
+                            <div class="timeline-org">独立创业</div>
+                            <div class="timeline-desc">聚焦 AI 驱动的产品开发，独立设计并实现了从赛事数据采集、多维度预测建模、视频自动生成到多平台内容分发的全链路自动化工具栈，覆盖数据工程、机器学习、全栈 Web 开发、浏览器自动化和视频渲染五大技术领域。部分项目已在 GitHub 开源。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot green"></div>
+                            <div class="timeline-date">2012.08 ~ 2019.01</div>
+                            <div class="timeline-title">研发工程师</div>
+                            <div class="timeline-org">百度上海研发中心</div>
+                            <div class="timeline-desc">参与百度核心产品的研发工作，积累了大规模系统设计、高性能工程实践和团队协作经验。六年的互联网一线研发经历，培养了扎实的工程能力、架构思维和产品意识。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Interests -->
+                <div class="info-card orange">
+                    <h3><span class="icon" style="background:rgba(240,136,62,0.15);color:var(--accent-orange);">H</span> 个人爱好</h3>
+                    <div class="info-row">
+                        <div class="info-label">足球</div>
+                        <div class="info-value">资深球迷，对足球赛事数据分析和预测有深厚兴趣。</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">篮球</div>
+                        <div class="info-value">热爱篮球运动，关注 NBA 等赛事，具备体育数据分析的跨领域视角。</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">技术</div>
+                        <div class="info-value">持续关注 AI / 机器学习 / 浏览器自动化 / 视频渲染前沿技术，热衷于将新技术落地为实际产品。</div>
+                    </div>
+                </div>
+
+                <!-- Skills Snapshot -->
+                <div class="info-card purple">
+                    <h3><span class="icon" style="background:rgba(188,140,255,0.15);color:var(--accent-purple);">S</span> 能力概览</h3>
+                    <div class="info-row">
+                        <div class="info-label">架构</div>
+                        <div class="info-value">从 0 到 1 独立构建产品级系统，覆盖前后端、ML、自动化、视频全链路</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">AI开发</div>
+                        <div class="info-value">需求驱动 + 文档先行 + AI 派发任务的现代化开发方法论</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">开源</div>
+                        <div class="info-value">6 个完整项目均在 <a href="https://github.com/quenteenfixed" target="_blank">GitHub</a> 部分开源，含完整文档与部署配置</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Professional Summary ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>专业概述</h2>
+                <p>独立设计、开发并部署了一套完整的"产品-推广"AI自动化流程工具栈</p>
+            </div>
+            <div class="summary-box">
+                <p>作为 AI 产品开发工程师，独立完成从底层赛事数据采集、多维度预测建模、大模型评估修正，到营销客户采集、视频自动生成与多平台分发的全链路系统设计与实现。6 个项目覆盖数据工程、机器学习、全栈 Web 开发、浏览器自动化和视频渲染五大技术领域，形成完整的"数据采集 → 智能分析 → 内容生产 → 多端分发"AI 自动化闭环。</p>
+                <p>具备从 0 到 1 独立构建产品级系统的能力：后端使用 Python FastAPI / Flask 构建 RESTful API 服务，前端使用 Vue 3 + TypeScript 构建可视化交互界面，机器学习层使用 XGBoost + Poisson + Dixon-Coles 构建多模型融合预测管线，自动化层使用 Puppeteer / Playwright + CloakBrowser 实现反检测浏览器操控，视频层使用 Remotion + React +
+                    edge-TTS 实现分镜脚本到成品视频的自动渲染。所有项目均已在 GitHub 开源，具备完整的文档、部署配置和自动化流水线。</p>
+                <div class="summary-highlights">
+                    <div class="highlight-item">
+                        <div class="highlight-num">6</div>
+                        <div class="highlight-label">产品级系统</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-num">19</div>
+                        <div class="highlight-label">平台自动分发</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-num">581</div>
+                        <div class="highlight-label">维特征工程</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-num">59.7%</div>
+                        <div class="highlight-label">预测准确率</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Technical Skills ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>核心技术栈</h2>
+                <p>横跨后端、前端、机器学习、浏览器自动化和视频渲染的全方位技术能力</p>
+            </div>
+            <div class="skills-grid">
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(88,166,255,0.15);color:var(--accent-blue);">B</span> 后端开发</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">Python 3.11</span>
+                        <span class="skill-tag primary">FastAPI</span>
+                        <span class="skill-tag primary">Flask</span>
+                        <span class="skill-tag">Uvicorn</span>
+                        <span class="skill-tag">SQLAlchemy 2.0</span>
+                        <span class="skill-tag">Pydantic</span>
+                        <span class="skill-tag">JWT</span>
+                        <span class="skill-tag">bcrypt</span>
+                        <span class="skill-tag">Stripe</span>
+                        <span class="skill-tag">MCP Protocol</span>
+                        <span class="skill-tag">A2A Protocol</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(63,185,80,0.15);color:var(--accent-green);">F</span> 前端开发</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">Vue 3</span>
+                        <span class="skill-tag primary">TypeScript</span>
+                        <span class="skill-tag primary">React 18</span>
+                        <span class="skill-tag">Vite</span>
+                        <span class="skill-tag">Pinia</span>
+                        <span class="skill-tag">Element Plus</span>
+                        <span class="skill-tag">Tailwind CSS</span>
+                        <span class="skill-tag">ECharts</span>
+                        <span class="skill-tag">Remotion</span>
+                        <span class="skill-tag">html2canvas</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(240,136,62,0.15);color:var(--accent-orange);">M</span> 机器学习 / AI</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">XGBoost</span>
+                        <span class="skill-tag primary">scikit-learn</span>
+                        <span class="skill-tag">Poisson Regression</span>
+                        <span class="skill-tag">Dixon-Coles</span>
+                        <span class="skill-tag">Isotonic Regression</span>
+                        <span class="skill-tag">ELO Rating</span>
+                        <span class="skill-tag">Optuna</span>
+                        <span class="skill-tag">Walk-Forward CV</span>
+                        <span class="skill-tag">Gemini API</span>
+                        <span class="skill-tag">Agent Runtime</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(57,208,216,0.15);color:var(--accent-cyan);">A</span> 浏览器自动化</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">Puppeteer</span>
+                        <span class="skill-tag primary">Playwright</span>
+                        <span class="skill-tag primary">CloakBrowser</span>
+                        <span class="skill-tag">MutationObserver</span>
+                        <span class="skill-tag">反检测指纹隐藏</span>
+                        <span class="skill-tag">Cookie 持久化</span>
+                        <span class="skill-tag">拟人化操作</span>
+                        <span class="skill-tag">CDP 协议</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(188,140,255,0.15);color:var(--accent-purple);">D</span> 数据库 / 存储</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">PostgreSQL 15</span>
+                        <span class="skill-tag primary">SQLite</span>
+                        <span class="skill-tag">JSON 文件存储</span>
+                        <span class="skill-tag">S3 对象存储</span>
+                        <span class="skill-tag">Docker Volume</span>
+                        <span class="skill-tag">Redis (概念)</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(247,120,186,0.15);color:var(--accent-pink);">V</span> 视频 / 多媒体</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">Remotion 4.0</span>
+                        <span class="skill-tag primary">FFmpeg</span>
+                        <span class="skill-tag primary">edge-TTS</span>
+                        <span class="skill-tag">Lottie 动画</span>
+                        <span class="skill-tag">ECharts 图表</span>
+                        <span class="skill-tag">Pexels API</span>
+                        <span class="skill-tag">逐词字幕同步</span>
+                        <span class="skill-tag">Ken Burns 效果</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(227,179,65,0.15);color:var(--accent-yellow);">O</span> DevOps / 部署</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">Docker Compose</span>
+                        <span class="skill-tag primary">Nginx</span>
+                        <span class="skill-tag">systemd</span>
+                        <span class="skill-tag">CI/CD 脚本</span>
+                        <span class="skill-tag">健康检查</span>
+                        <span class="skill-tag">镜像回滚</span>
+                        <span class="skill-tag">crontab 定时任务</span>
+                        <span class="skill-tag">Shell 自动化</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(88,166,255,0.15);color:var(--accent-blue);">N</span> Node.js 生态</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">Node.js 18+</span>
+                        <span class="skill-tag">ES Modules</span>
+                        <span class="skill-tag">Express 5</span>
+                        <span class="skill-tag">tsx</span>
+                        <span class="skill-tag">MCP SDK</span>
+                        <span class="skill-tag">Vitest</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3><span class="icon" style="background:rgba(63,185,80,0.15);color:var(--accent-green);">G</span> 数据科学</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">NumPy</span>
+                        <span class="skill-tag primary">SciPy</span>
+                        <span class="skill-tag primary">Pandas</span>
+                        <span class="skill-tag">Matplotlib</span>
+                        <span class="skill-tag">joblib</span>
+                        <span class="skill-tag">PyYAML</span>
+                        <span class="skill-tag">数据清洗</span>
+                        <span class="skill-tag">特征工程</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Architecture Overview ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>系统架构总览</h2>
+                <p>完整的"数据采集 → 智能分析 → 内容生产 → 多端分发"AI 自动化闭环</p>
+            </div>
+            <div class="arch-flow">
+
+                <div class="arch-row">
+                    <div class="arch-layer-label">数据采集层</div>
+                    <div class="arch-items">
+                        <div class="arch-item" style="background:rgba(63,185,80,0.06);border-color:rgba(63,185,80,0.2);">
+                            <div class="arch-title" style="color:var(--accent-green);">AIBall Auto Collect</div>
+                            <div class="arch-desc">Puppeteer 赛事数据采集<br>交锋 / 赔率 / 大小球</div>
+                        </div>
+                        <div class="arch-item" style="background:rgba(240,136,62,0.06);border-color:rgba(240,136,62,0.2);">
+                            <div class="arch-title" style="color:var(--accent-orange);">AIMap</div>
+                            <div class="arch-desc">高德地图商户线索采集<br>Playwright + MutationObserver</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">↓</div>
+
+                <div class="arch-row">
+                    <div class="arch-layer-label">智能分析层</div>
+                    <div class="arch-items">
+                        <div class="arch-item" style="background:rgba(88,166,255,0.06);border-color:rgba(88,166,255,0.2);">
+                            <div class="arch-title" style="color:var(--accent-blue);">AIBall Solo</div>
+                            <div class="arch-desc">六路融合预测引擎<br>FastAPI + Vue 3 全栈平台</div>
+                        </div>
+                        <div class="arch-item" style="background:rgba(188,140,255,0.06);border-color:rgba(188,140,255,0.2);">
+                            <div class="arch-title" style="color:var(--accent-purple);">AIBall XGBoost</div>
+                            <div class="arch-desc">ML 预测管线<br>分类 + Poisson + 比分矩阵</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">↓</div>
+
+                <div class="arch-row">
+                    <div class="arch-layer-label">内容生产层</div>
+                    <div class="arch-items">
+                        <div class="arch-item" style="background:rgba(57,208,216,0.06);border-color:rgba(57,208,216,0.2);">
+                            <div class="arch-title" style="color:var(--accent-cyan);">AIAutoVideo</div>
+                            <div class="arch-desc">分镜脚本 → 视频自动渲染<br>Remotion + TTS + 字幕同步</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">↓</div>
+
+                <div class="arch-row">
+                    <div class="arch-layer-label">多端分发层</div>
+                    <div class="arch-items">
+                        <div class="arch-item" style="background:rgba(247,120,186,0.06);border-color:rgba(247,120,186,0.2);">
+                            <div class="arch-title" style="color:var(--accent-pink);">AIVideo Publish</div>
+                            <div class="arch-desc">19 平台一键自动发布<br>Vue 3 + Flask + CloakBrowser</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Project Experience ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>项目经历</h2>
+                <p>6 个完整产品级系统 — 从数据采集到智能预测到内容营销的全链路工具栈</p>
+            </div>
+
+            <!-- Project 1: AIBall Solo -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <span class="project-number">01</span>
+                        <div class="project-title">AIBall Solo — 足球赛事数据分析与智能预测平台</div>
+                        <div class="project-subtitle">全栈架构 | FastAPI + Vue 3 + PostgreSQL | 六路融合预测引擎</div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/quenteenfixed/aiball-solo" class="project-link" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <div class="project-section">
+                        <h4>项目概述</h4>
+                        <p class="project-desc">独立设计并实现的足球比赛数据分析与预测平台"足智AI"。系统以多路融合算法为核心，将赔率概率、历史交锋、进球期望、指数离散、欧亚一致性和凯利指数六大信号统一融合，生成胜平负概率、预期进球、Top-N 比分分布、风险等级和价值投注建议。支持 6 种预测模式（均衡/市场/数据/变化/保守/价值），并提供完整的用户权限体系、JWT 认证、可视化分析和 Agent 智能分析链路。</p>
+                        <h4>技术架构</h4>
+                        <ul class="feature-list">
+                            <li>FastAPI 后端构建 RESTful API，支持 GZip 压缩、CORS 中间件、MCP 端点挂载</li>
+                            <li>Vue 3 + TypeScript + Vite 前端，Pinia 状态管理，ECharts 数据可视化</li>
+                            <li>PostgreSQL 15 生产数据库 + SQLite 开发环境，支持幂等 upsert 写入</li>
+                            <li>六路融合预测算法：Shin 去 vig、ELO 评级、泊松分布、Dixon-Coles 比分矩阵校准、凯利准则、EV 价值评估</li>
+                            <li>Agent 运行时可插拔架构：支持 Gemini / A2A / Ollama / Harness / Template 多运行时切换</li>
+                            <li>四层用户权限体系（游客/普通/体验/月付），动态控制数据可见范围</li>
+                            <li>Docker Compose 一键部署 + Nginx 反向代理 + 健康检查 + 镜像自动回滚</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h4>核心技术亮点</h4>
+                        <ul class="feature-list">
+                            <li>多路融合预测架构：六路信号加权融合，权重可按模式动态调整</li>
+                            <li>Dixon-Coles 比分矩阵校准：修正低比分异常集中问题</li>
+                            <li>可解释概率输出：概率 + 置信度 + 风险评分 + 信号标记 + Top 比分</li>
+                            <li>风险控制系统：置信度校准、市场分歧检测、联赛准确率修正、伤停和赛程影响</li>
+                            <li>Agent 评测系统：多运行时对比、工具调用检测、延迟统计、编造检测</li>
+                            <li>幂等数据处理管线：可重复运行，支持增量更新</li>
+                            <li>裸机部署脚本体系：install / deploy / release / backup / rollback 全套运维</li>
+                        </ul>
+                        <h4>技术栈</h4>
+                        <div class="tech-stack">
+                            <span class="tech-pill lang">Python 3.11</span>
+                            <span class="tech-pill frame">FastAPI</span>
+                            <span class="tech-pill frame">Vue 3</span>
+                            <span class="tech-pill lang">TypeScript</span>
+                            <span class="tech-pill frame">Vite</span>
+                            <span class="tech-pill frame">Pinia</span>
+                            <span class="tech-pill frame">Tailwind CSS</span>
+                            <span class="tech-pill fmt">ECharts</span>
+                            <span class="tech-pill db">PostgreSQL 15</span>
+                            <span class="tech-pill db">SQLite</span>
+                            <span class="tech-pill ai">NumPy</span>
+                            <span class="tech-pill ai">SciPy</span>
+                            <span class="tech-pill tool">Docker Compose</span>
+                            <span class="tech-pill tool">Nginx</span>
+                            <span class="tech-pill tool">JWT</span>
+                            <span class="tech-pill ai">MCP</span>
+                            <span class="tech-pill ai">A2A</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: AIBall Auto Collect -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <span class="project-number">02</span>
+                        <div class="project-title">AIBall Auto Collect — 多维赛事数据自动采集系统</div>
+                        <div class="project-subtitle">数据工程 | Node.js + Puppeteer | 断点续采 + 增量落盘</div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/quenteenfixed/aiball-auto-collect" class="project-link" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <div class="project-section">
+                        <h4>项目概述</h4>
+                        <p class="project-desc">面向竞彩足球数据的自动化采集系统，基于 Node.js + Puppeteer 构建。系统自动打开赛事页面，逐场采集历史交锋（JC）、胜平负赔率（SPF）、总进球大小球（ZJQ）三类维度数据。采用页面内 JavaScript 注入方案，通过 Puppeteer 调度页面、注入解析函数、调用 API 完成数据采集，支持断点续采、批量日期采集、增量落盘和失败重试。</p>
+                        <h4>技术架构</h4>
+                        <ul class="feature-list">
+                            <li>纯 Puppeteer + 系统 Chrome，无需浏览器扩展依赖</li>
+                            <li>列表 API 直取模式：直接请求接口获取 matchId 列表</li>
+                            <li>页面内脚本注入：通过 page.addScriptTag 注入 parse-funcs.js，在页面上下文执行采集</li>
+                            <li>三页一站式采集：每场比赛自动遍历l</li>
+                            <li>增量合并存储：以 matchId 为唯一键，已存在则合并更新，不覆盖已有非空字段</li>
+                            <li>跨平台启动脚本：macOS/Linux shell + Windows PowerShell</li>
+                            <li>独立 Chrome 用户数据目录，避免污染日常浏览器</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h4>核心技术亮点</h4>
+                        <ul class="feature-list">
+                            <li>页面内执行与页面外调度分离：collector / parse-funcs / storage 职责清晰</li>
+                            <li>DOM 轮询等待机制：异步渲染表格就绪检测，避免数据未加载即采集</li>
+                            <li>断点续采：读取已有 matches.json 跳过已采集 matchId</li>
+                            <li>批量日期采集：batch_collect.sh 按日期区间逐日执行</li>
+                            <li>容错设计：单页失败不阻塞其他页，单场失败记录 error 继续</li>
+                            <li>headful 模式保留浏览器 30 秒，便于人工处理验证码</li>
+                            <li>反检测：禁用 AutomationControlled 特征、独立 Chrome profile</li>
+                        </ul>
+                        <h4>技术栈</h4>
+                        <div class="tech-stack">
+                            <span class="tech-pill lang">JavaScript (ES Modules)</span>
+                            <span class="tech-pill lang">Node.js 18+</span>
+                            <span class="tech-pill tool">Puppeteer 23.x</span>
+                            <span class="tech-pill tool">System Chrome</span>
+                            <span class="tech-pill db">JSON 文件存储</span>
+                            <span class="tech-pill tool">Shell 脚本</span>
+                            <span class="tech-pill tool">PowerShell</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: AIBall XGBoost -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <span class="project-number">03</span>
+                        <div class="project-title">AIBall XGBoost — 多维度赛事预测机器学习系统</div>
+                        <div class="project-subtitle">机器学习 | Python + XGBoost + scikit-learn | 三模型融合 + Walk-Forward CV</div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/quenteenfixed/aiball-xgboost" class="project-link" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <div class="project-section">
+                        <h4>项目概述</h4>
+                        <p class="project-desc">基于 XGBoost 的足球比赛多维预测系统，使用 581 维赛前特征预测胜平负、进球数和比分分布。系统采用三层模型架构：XGBoost multi:softprob 分类模型预测胜平负概率，两个 XGBoost count:poisson 回归模型分别预测主客队进球期望，再通过 Poisson 外积 + Dixon-Coles 修正构建比分概率矩阵，最终将分类概率与比分矩阵概率加权融合生成最终共识概率。</p>
+                        <h4>技术架构</h4>
+                        <ul class="feature-list">
+                            <li>三层模型架构：分类模型 + 双 Poisson 回归 + 比分矩阵融合</li>
+                            <li>特征工程管线：中位数填充 + ±5σ 异常值裁剪 + 训练/推理特征列严格对齐</li>
+                            <li>概率校准：Isotonic Regression 缓解 XGBoost 概率过度自信问题</li>
+                            <li>Dixon-Coles 比分修正：低比分区域（0-0, 1-0, 0-1, 1-1）概率校正</li>
+                            <li>一致性融合：60% 分类概率 + 40% 比分矩阵概率 = 最终共识</li>
+                            <li>Walk-Forward CV：防止未来数据泄漏的时间序列交叉验证</li>
+                            <li>截止日训练 + 增量训练模式：模拟真实生产环境滚动更新</li>
+                            <li>一键流水线：train → evaluate → predict 全自动执行</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h4>核心技术亮点</h4>
+                        <ul class="feature-list">
+                            <li>多模型融合：分类 + 回归 + 矩阵三层架构，优于单一模型</li>
+                            <li>防时间泄漏设计：所有训练和评估严格按日期边界切分</li>
+                            <li>丰富的预测输出：原始/校准/矩阵/融合四套概率 + Top-N 比分 + 大小球</li>
+                            <li>完整评估体系：RPS、LogLoss、Brier Score、Accuracy、F1、校准曲线</li>
+                            <li>多基线对比：team_history_avg、global_naive、home_advantage、random_uniform</li>
+                            <li>HTML + JSON 双格式评估报告，包含混淆矩阵和特征重要性</li>
+                            <li>配置驱动：training.yaml / predict.yaml / evaluate.yaml 全 YAML 管理</li>
+                        </ul>
+                        <h4>模型性能</h4>
+                        <div class="metrics-grid">
+                            <div class="metric-box">
+                                <div class="metric-val">0.2106</div>
+                                <div class="metric-label">RPS（优于所有基线）</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-val">59.66%</div>
+                                <div class="metric-label">预测准确率</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-val">581</div>
+                                <div class="metric-label">特征维度</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-val">26.5%</div>
+                                <div class="metric-label">相对随机基线RPS提升</div>
+                            </div>
+                        </div>
+                        <h4 style="margin-top:16px;">技术栈</h4>
+                        <div class="tech-stack">
+                            <span class="tech-pill lang">Python</span>
+                            <span class="tech-pill ai">XGBoost</span>
+                            <span class="tech-pill ai">scikit-learn</span>
+                            <span class="tech-pill ai">SciPy</span>
+                            <span class="tech-pill ai">Pandas</span>
+                            <span class="tech-pill ai">NumPy</span>
+                            <span class="tech-pill ai">Optuna</span>
+                            <span class="tech-pill tool">joblib</span>
+                            <span class="tech-pill tool">Matplotlib</span>
+                            <span class="tech-pill tool">PyYAML</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: AIMap -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <span class="project-number">04</span>
+                        <div class="project-title">AIMap — 基于地图的客户数据智能采集系统</div>
+                        <div class="project-subtitle">浏览器自动化 | Python + Playwright | 反检测 + 风控恢复</div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/quenteenfixed/aimap-ball" class="project-link" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <div class="project-section">
+                        <h4>项目概述</h4>
+                        <p class="project-desc">基于高德地图的 C 端商户线索智能采集系统。使用 Python + Playwright 启动真实 Chrome 浏览器，通过注入 MutationObserver 实时监听高德地图页面 DOM 变化，自动提取商户名称与联系电话。系统内置反检测指纹隐藏、风控弹窗识别、自动冷却恢复和人类行为模拟机制，采集结果去重后保存为 CSV / JSON，可直接用于线下门店客户挖掘与区域分群。</p>
+                        <h4>技术架构</h4>
+                        <ul class="feature-list">
+                            <li>Playwright 启动真实 Chrome（非 headless），使用持久化用户数据目录</li>
+                            <li>MutationObserver 监听 DOM 变化，实时捕获商户详情卡片</li>
+                            <li>多选择器 + 全文本扫描 + 手机号/座机正则兜底的三层提取策略</li>
+                            <li>前端 JS 去重 + Python 后端去重双重保障</li>
+                            <li>反检测模块：隐藏 navigator.webdriver、伪造插件列表、修正权限 API</li>
+                            <li>风控检测：识别"操作过于频繁""安全验证"等关键词，自动冷却恢复</li>
+                            <li>人类行为模拟：随机鼠标移动、页面滚动、批次暂停</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h4>核心技术亮点</h4>
+                        <ul class="feature-list">
+                            <li>抗页面改版：不依赖单一 DOM class，多选择器容错</li>
+                            <li>采集来源标记：panel / text-scan 区分，可用于准确率分析</li>
+                            <li>批次控制：每 15 条暂停 30 秒，模拟人工休息节奏</li>
+                            <li>代理配置支持：可用于 IP 风控规避场景</li>
+                            <li>CDP 远程调试：用户和程序操作同一浏览器实例</li>
+                            <li>移除 Playwright 可疑启动参数，降低自动化特征暴露</li>
+                            <li>数据覆盖武汉、成都等城市，已采集 440+ 条商户记录</li>
+                        </ul>
+                        <h4>技术栈</h4>
+                        <div class="tech-stack">
+                            <span class="tech-pill lang">Python</span>
+                            <span class="tech-pill tool">Playwright</span>
+                            <span class="tech-pill tool">System Chrome</span>
+                            <span class="tech-pill lang">JavaScript</span>
+                            <span class="tech-pill db">CSV</span>
+                            <span class="tech-pill db">JSON</span>
+                            <span class="tech-pill tool">MutationObserver</span>
+                            <span class="tech-pill tool">反检测脚本</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5: AIAutoVideo -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <span class="project-number">05</span>
+                        <div class="project-title">AIAutoVideo — 分镜脚本自动生成视频系统</div>
+                        <div class="project-subtitle">视频工程 | Remotion + React + TypeScript | TTS + 逐词字幕 + 批量渲染</div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/quenteenfixed/aiautovideo" class="project-link" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <div class="project-section">
+                        <h4>项目概述</h4>
+                        <p class="project-desc">面向科普短视频的自动化视频生成流水线。系统接收结构化 script.json 分镜脚本作为输入，自动完成脚本校验、中文 TTS 语音合成、逐词字幕时间戳生成、多模板视觉场景渲染（文本卡片 / ECharts 图表 / Lottie 动画 / 图片 / 混合布局 / CTA 片尾）、Remotion 视频合成和 MP4 渲染输出。支持单视频和批量生产，内置 5 套视觉模板、素材缓存系统和 Docker 部署。</p>
+                        <h4>技术架构</h4>
+                        <ul class="feature-list">
+                            <li>Remotion 4.0 + React 18 构建可编程视频渲染引擎</li>
+                            <li>edge-TTS 中文语音合成，支持语速/音调/音量配置</li>
+                            <li>逐词字幕同步：TTS WordBoundary 时间戳 → 帧级字幕匹配</li>
+                            <li>6 类场景组件：TextCard / Chart / Animation / Image / Mixed / CtaCard</li>
+                            <li>5 套视觉模板：data_visual / illustration / cinematic / minimal / infographic</li>
+                            <li>9 种转场效果：fade / slide / zoom / wipe / bounce 等</li>
+                            <li>ECharts 图表场景：bar / line / pie / scatter / radar / custom</li>
+                            <li>素材管理器：Pexels API 搜索 + 本地缓存 manifest + URL hash 去重</li>
+                            <li>音频时长驱动场景帧数：duration_in_frames = ceil(audio_duration * fps)</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h4>核心技术亮点</h4>
+                        <ul class="feature-list">
+                            <li>文案到分镜脚本自动生成：基于关键词启发式分类（数字→图表、过程→动画）</li>
+                            <li>模板轮换机制：批量生产时自动切换视觉模板</li>
+                            <li>并发渲染：REMOTION_CONCURRENCY 可配置</li>
+                            <li>Docker Compose 三服务：Remotion Studio 预览 + 批量渲染 + TTS-only</li>
+                            <li>字幕动效：bounce / pop / slide / fade 四种动画</li>
+                            <li>Lottie 动画集成 + Ken Burns 图片效果</li>
+                            <li>批量生产日志：batch_summary.json + batch_log.json</li>
+                            <li>脚本校验器：完整字段校验 + 场景类型验证</li>
+                        </ul>
+                        <h4>技术栈</h4>
+                        <div class="tech-stack">
+                            <span class="tech-pill lang">TypeScript</span>
+                            <span class="tech-pill frame">React 18</span>
+                            <span class="tech-pill fmt">Remotion 4.0</span>
+                            <span class="tech-pill fmt">FFmpeg</span>
+                            <span class="tech-pill fmt">edge-TTS</span>
+                            <span class="tech-pill fmt">ECharts</span>
+                            <span class="tech-pill fmt">Lottie</span>
+                            <span class="tech-pill lang">tsx</span>
+                            <span class="tech-pill tool">Docker Compose</span>
+                            <span class="tech-pill tool">Pexels API</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6: AIVideo Publish -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <span class="project-number">06</span>
+                        <div class="project-title">AIVideo Publish — 多平台短视频自动发布系统</div>
+                        <div class="project-subtitle">全栈 + 自动化 | Vue 3 + Flask + CloakBrowser | 19 平台一键分发</div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/quenteenfixed/aivideo-publish" class="project-link" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <div class="project-section">
+                        <h4>项目概述</h4>
+                        <p class="project-desc">一站式多平台社交媒体自动发布工具，支持小红书、视频号、抖音、快手、B站、TikTok、YouTube 等 19 个内容平台的一键自动分发。系统采用 Vue 3 + Flask + SQLite + CloakBrowser 架构，通过 Registry 模式实现平台插件化扩展，用户上传视频后勾选平台与账号，系统自动登录各平台创作者后台完成素材上传、表单填写、封面设置和定时发布。</p>
+                        <h4>技术架构</h4>
+                        <ul class="feature-list">
+                            <li>Vue 3 + Element Plus 前端：发布中心 / 账号管理 / 素材中心 / 任务中心 / 仪表盘</li>
+                            <li>Flask 异步后端：文件上传 / 账号管理 / 发布接口 / SSE 状态流</li>
+                            <li>Registry 平台插件架构：BasePlatform 抽象类 + 19 个平台独立实现</li>
+                            <li>CloakBrowser 反检测浏览器：stealth Chromium + 拟人化操作（贝塞尔鼠标轨迹 / 逐键打字）</li>
+                            <li>异步发布队列 + 单线程串行执行器：解决大视频上传 HTTP 超时和并发浏览器问题</li>
+                            <li>Cookie / storage_state 持久化登录：扫码登录后自动保存，下次免登录</li>
+                            <li>MCP 服务层：TypeScript + Express + MCP SDK，支持 AI Agent 调用</li>
+                            <li>SQLite 数据库：账号 / 素材 / 草稿 / 发布批次 / 发布明细 / 上传分片</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h4>核心技术亮点</h4>
+                        <ul class="feature-list">
+                            <li>19 平台全覆盖：短视频 / 中长视频 / 图文 / 电商种草 / 公众号</li>
+                            <li>平台差异化参数统一传参：通用字段 + 平台特殊字段</li>
+                            <li>内容校验体系：按平台校验视频大小/时长/标题长度/简介长度</li>
+                            <li>运营数据同步：粉丝 / 获赞 / 关注等数据自动抓取</li>
+                            <li>浏览器关闭保护 watchdog：用户手动关闭浏览器自动取消任务</li>
+                            <li>分片上传 + 断点续传：upload_sessions / upload_chunks 管理</li>
+                            <li>封面编辑器：多比例画幅 + 自动缩略图生成</li>
+                            <li>B 站标题清洗 + emoji 权重截断等平台适配细节</li>
+                            <li>S3 / 本地存储抽象层：统一存储接口</li>
+                        </ul>
+                        <h4>支持平台（19个）</h4>
+                        <div class="tech-stack">
+                            <span class="tech-pill fmt">小红书</span>
+                            <span class="tech-pill fmt">视频号</span>
+                            <span class="tech-pill fmt">抖音</span>
+                            <span class="tech-pill fmt">快手</span>
+                            <span class="tech-pill fmt">B站</span>
+                            <span class="tech-pill fmt">百家号</span>
+                            <span class="tech-pill fmt">TikTok</span>
+                            <span class="tech-pill fmt">YouTube</span>
+                            <span class="tech-pill fmt">腾讯视频</span>
+                            <span class="tech-pill fmt">爱奇艺</span>
+                            <span class="tech-pill fmt">微博</span>
+                            <span class="tech-pill fmt">支付宝</span>
+                            <span class="tech-pill fmt">今日头条</span>
+                            <span class="tech-pill fmt">知乎</span>
+                            <span class="tech-pill fmt">CSDN</span>
+                            <span class="tech-pill fmt">VIVO</span>
+                            <span class="tech-pill fmt">微信公众号</span>
+                            <span class="tech-pill fmt">淘宝光合</span>
+                            <span class="tech-pill fmt">京东京麦</span>
+                        </div>
+                        <h4 style="margin-top:16px;">技术栈</h4>
+                        <div class="tech-stack">
+                            <span class="tech-pill lang">Python 3.10+</span>
+                            <span class="tech-pill frame">Flask</span>
+                            <span class="tech-pill frame">Vue 3</span>
+                            <span class="tech-pill frame">Element Plus</span>
+                            <span class="tech-pill lang">TypeScript</span>
+                            <span class="tech-pill frame">Express 5</span>
+                            <span class="tech-pill db">SQLite</span>
+                            <span class="tech-pill tool">CloakBrowser</span>
+                            <span class="tech-pill tool">Playwright</span>
+                            <span class="tech-pill tool">OpenCV</span>
+                            <span class="tech-pill tool">FFmpeg</span>
+                            <span class="tech-pill ai">MCP SDK</span>
+                            <span class="tech-pill tool">boto3 (S3)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== AI Development Philosophy ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>AI 开发理念与实践</h2>
+                <p>需求驱动、文档先行、AI 派发 — AI 时代的工程方法论</p>
+            </div>
+            <div class="philosophy-box">
+                <div class="philosophy-quote">"AI 时代的开发，优先定好和想清楚需求、文档，再派发任务给 AI。"</div>
+                <p class="philosophy-text">在 AI 辅助开发成为主流的当下，核心能力已从"亲自编写每一行代码"转变为"精准定义需求、设计系统架构、编排 AI 工作流"。我始终遵循<b style="color:var(--text-primary);">需求先行 → 文档驱动 → AI 派发 → 验证闭环</b>的开发方法论：首先深入分析业务场景，明确系统边界与核心算法逻辑；其次以结构化文档（需求规格 / 算法设计 / 技术方案）固化思考成果；然后将具体实现任务派发给 AI 工具执行；最后通过自测、指标评估和基线对比完成验证。</p>
+                <p class="philosophy-text">这一方法论贯穿全部 6 个项目的开发过程。以足球预测系统为例：从需求定义（六路融合预测架构设计）、到 ML 管线设计（XGBoost + Poisson + Dixon-Coles 三模型融合方案）、到置信度与风险因子逻辑分析、再到开发与测试验证，每一步均以对话文档形式沉淀，形成可追溯的开发链路。以下是部分 AI 开发过程对话记录，完整展示了从需求到落地的思考路径。</p>
+
+                <div class="ai-conversations">
+                    <h4>AI 开发过程对话记录</h4>
+                    <div class="conversation-list">
+                        <a href="https://share.traecontent.cn/share/HMG2OYWEE23L.T?enter_from=pc" class="conversation-item" target="_blank">
+                            <span class="conversation-num">01</span>
+                            <span class="conversation-title">足球预测系统需求与开发方案</span>
+                        </a>
+                        <a href="https://share.traecontent.cn/share/NOB6IMM4XI5LBX?enter_from=pc" class="conversation-item" target="_blank">
+                            <span class="conversation-num">02</span>
+                            <span class="conversation-title">XGBoost 足球预测系统深度设计调研</span>
+                        </a>
+                        <a href="https://share.traecontent.cn/share/6ZEUYKXO6KG7ZD?enter_from=pc" class="conversation-item" target="_blank">
+                            <span class="conversation-num">03</span>
+                            <span class="conversation-title">AI 足球预测系统开发</span>
+                        </a>
+                        <a href="https://share.traecontent.cn/share/LI_V4YAG-_K6_D?enter_from=pc" class="conversation-item" target="_blank">
+                            <span class="conversation-num">04</span>
+                            <span class="conversation-title">足球预测系统开发与测试</span>
+                        </a>
+                        <a href="https://share.traecontent.cn/share/ECHF22HD5-2J5U?enter_from=pc" class="conversation-item" target="_blank">
+                            <span class="conversation-num">05</span>
+                            <span class="conversation-title">分析系统置信度与风险因子逻辑</span>
+                        </a>
+                        <a href="https://share.traecontent.cn/share/HJIMIX4N4D2RQJ?enter_from=pc" class="conversation-item" target="_blank">
+                            <span class="conversation-num">06</span>
+                            <span class="conversation-title">XGBoost 足球预测系统开发</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p>覃涛 | AI 产品开发工程师 | 现居武汉市</p>
+            <p style="margin-top:8px;">所有项目均已开源至 GitHub: <a href="https://github.com/quenteenfixed" target="_blank">github.com/quenteenfixed</a> | 2026</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
