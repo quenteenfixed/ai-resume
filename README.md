@@ -6,7 +6,10 @@
 >
 >【线上预览简历】https://quenteenfixed.github.io/ai-resume/resume.html
 >
+> 调研：
 > 【长周期任务的自运转智能体，以营收利润为核心评估指标】 https://quenteenfixed.github.io/ai-resume/long-horizon/deploy.html
+> 技术方案1：https://quenteenfixed.github.io/ai-resume/long-horizon/github-tech-plan.html
+> 技术方案2：https://quenteenfixed.github.io/ai-resume/long-horizon/inspect-ai-tech-plan.html
 
 ## 个人信息
 
