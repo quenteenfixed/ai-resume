@@ -5,6 +5,8 @@
 > 从数据采集到智能预测到内容营销的全链路工具栈构建
 >
 >【线上预览简历】https://quenteenfixed.github.io/ai-resume/resume.html
+>
+> 【长周期任务的自运转智能体，以营收利润为核心评估指标】 https://quenteenfixed.github.io/ai-resume/long-horizon/deploy.html
 
 ## 个人信息
 
