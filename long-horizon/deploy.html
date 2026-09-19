@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>长周期自治智能体系统 — 技术落地方案</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #0a0e1a;
+    color: #e8ecf4;
+    line-height: 1.75;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+
+  .hero {
+    background: linear-gradient(135deg, #0d111e 0%, #1a1f3a 50%, #0d111e 100%);
+    border: 1px solid #2a3150;
+    border-radius: 20px;
+    padding: 56px 48px;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -40%; right: -15%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(99,102,241,0.2);
+    border: 1px solid rgba(99,102,241,0.4);
+    border-radius: 100px;
+    font-size: 13px;
+    color: #a5b4fc;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #e8ecf4 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+  .hero-subtitle {
+    font-size: 17px;
+    color: #94a3b8;
+    margin-bottom: 30px;
+    max-width: 720px;
+  }
+  .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .meta-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+  .meta-value { font-size: 15px; color: #e8ecf4; font-weight: 600; }
+
+  .section {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 36px;
+    margin-bottom: 24px;
+  }
+  .section-number {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6366f1;
+    background: rgba(99,102,241,0.1);
+    padding: 4px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  .section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 18px;
+    line-height: 1.3;
+  }
+  .section h3 {
+    font-size: 19px;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 26px 0 12px;
+    padding-left: 12px;
+    border-left: 3px solid #6366f1;
+  }
+  .section h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin: 18px 0 8px;
+  }
+  .section p { color: #cbd5e1; margin-bottom: 12px; font-size: 15px; }
+  .section ul, .section ol { color: #cbd5e1; margin: 10px 0 16px 22px; font-size: 15px; }
+  .section li { margin-bottom: 6px; }
+  .section strong { color: #f1f5f9; font-weight: 600; }
+  .section code { font-family: "SF Mono","Monaco","Consolas",monospace; background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #93c5fd; }
+
+  .arch-diagram {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 18px 0;
+    font-family: "SF Mono","Monaco","Consolas",monospace;
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: #94a3b8;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .arch-diagram .l1 { color: #f472b6; font-weight: 600; }
+  .arch-diagram .l2 { color: #a78bfa; font-weight: 600; }
+  .arch-diagram .l3 { color: #60a5fa; font-weight: 600; }
+  .arch-diagram .l4 { color: #34d399; font-weight: 600; }
+  .arch-diagram .l5 { color: #fbbf24; font-weight: 600; }
+  .arch-diagram .cmt { color: #475569; }
+
+  .code-block {
+    background: #020617;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 14px 0;
+    overflow-x: auto;
+    font-family: "SF Mono","Monaco","Consolas",monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #94a3b8;
+  }
+  .code-block .kw { color: #c084fc; }
+  .code-block .fn { color: #60a5fa; }
+  .code-block .str { color: #4ade80; }
+  .code-block .num { color: #fbbf24; }
+  .code-block .cmt { color: #475569; font-style: italic; }
+  .code-block .cls { color: #f472b6; }
+  .code-block .type { color: #5eead4; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  .card:hover { border-color: #6366f1; transform: translateY(-2px); }
+  .card-icon { font-size: 24px; margin-bottom: 10px; }
+  .card-title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+  .card-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .card-tag.p0 { background: rgba(248,113,113,0.15); color: #f87171; }
+  .card-tag.p1 { background: rgba(251,191,36,0.15); color: #fbbf24; }
+  .card-tag.p2 { background: rgba(74,222,128,0.15); color: #4ade80; }
+  .card-tag.p3 { background: rgba(96,165,250,0.15); color: #60a5fa; }
+
+  .insight-box {
+    background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.08) 100%);
+    border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+  .insight-box .label { font-size: 11px; font-weight: 700; color: #a5b4fc; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .insight-box p { color: #cbd5e1; margin: 0; font-size: 14px; }
+
+  .warning-box {
+    background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(245,158,11,0.08) 100%);
+    border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+  .warning-box .label { font-size: 11px; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .warning-box p { color: #fde68a; margin: 0; font-size: 14px; }
+
+  table.tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 13.5px;
+  }
+  table.tbl th {
+    background: #1e293b;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #f1f5f9;
+    border-bottom: 2px solid #334155;
+    font-size: 12px;
+  }
+  table.tbl td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #1e293b;
+    color: #cbd5e1;
+    vertical-align: top;
+  }
+  table.tbl tr:hover td { background: rgba(99,102,241,0.04); }
+  table.tbl .p0 { color: #f87171; font-weight: 600; }
+  table.tbl .p1 { color: #fbbf24; font-weight: 600; }
+  table.tbl .p2 { color: #4ade80; font-weight: 600; }
+  table.tbl .p3 { color: #60a5fa; font-weight: 600; }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .phase-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 22px 24px;
+    border-left: 4px solid #6366f1;
+  }
+  .phase-card.p0 { border-left-color: #f87171; }
+  .phase-card.p1 { border-left-color: #fbbf24; }
+  .phase-card.p2 { border-left-color: #4ade80; }
+  .phase-card.p3 { border-left-color: #60a5fa; }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .phase-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+  .phase-badge.p0 { background: rgba(248,113,113,0.2); color: #f87171; }
+  .phase-badge.p1 { background: rgba(251,191,36,0.2); color: #fbbf24; }
+  .phase-badge.p2 { background: rgba(74,222,128,0.2); color: #4ade80; }
+  .phase-badge.p3 { background: rgba(96,165,250,0.2); color: #60a5fa; }
+  .phase-title { font-size: 18px; font-weight: 600; color: #f1f5f9; }
+  .phase-duration { font-size: 13px; color: #64748b; margin-left: auto; }
+  .phase-body { font-size: 14px; color: #94a3b8; line-height: 1.7; }
+  .phase-body strong { color: #e2e8f0; }
+
+  .toc {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 24px;
+  }
+  .toc-title { font-size: 13px; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .toc-list { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 20px; }
+  .toc-list li { margin-bottom: 6px; break-inside: avoid; }
+  .toc-list a { color: #94a3b8; text-decoration: none; font-size: 13.5px; }
+  .toc-list a:hover { color: #a5b4fc; }
+  .toc-num { color: #6366f1; font-weight: 600; margin-right: 5px; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .stat-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-value { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 3px; }
+  .stat-label { font-size: 11px; color: #64748b; }
+
+  .footer { text-align: center; padding: 36px 0; color: #475569; font-size: 12px; }
+
+  @media (max-width: 768px) {
+    .hero { padding: 32px 22px; }
+    .hero h1 { font-size: 24px; }
+    .section { padding: 22px; }
+    .section h2 { font-size: 20px; }
+    .toc-list { columns: 1; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-tag">🏗️ 技术落地方案 · 基于Andon Labs架构升级</div>
+    <h1>长周期自治智能体系统<br>技术落地方案</h1>
+    <p class="hero-subtitle">
+      吸纳 Andon Labs 19 个月技术迭代的精华，结合团队现有 AI 产品栈，
+      制定四阶段、可落地的工程实施方案。
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">方案版本</span><span class="meta-value">v1.0</span></div>
+      <div class="meta-item"><span class="meta-label">实施周期</span><span class="meta-value">16 周（4阶段）</span></div>
+      <div class="meta-item"><span class="meta-label">核心模块</span><span class="meta-value">8 大模块</span></div>
+      <div class="meta-item"><span class="meta-label">技术栈</span><span class="meta-value">Python + FastAPI</span></div>
+      <div class="meta-item"><span class="meta-label">参考来源</span><span class="meta-value">Andon Labs Pion</span></div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">目录</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span>执行摘要与目标</a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>目标系统架构总览</a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>四阶段实施路线图</a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Phase 0：基础设施层</a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Phase 1：核心Agent引擎</a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>Phase 2：多Agent协作层</a></li>
+      <li><a href="#s7"><span class="toc-num">07</span>Phase 3：治理与安全层</a></li>
+      <li><a href="#s8"><span class="toc-num">08</span>技术栈选型</a></li>
+      <li><a href="#s9"><span class="toc-num">09</span>团队分工与资源配置</a></li>
+      <li><a href="#s10"><span class="toc-num">10</span>风险评估与对策</a></li>
+      <li><a href="#s11"><span class="toc-num">11</span>成功指标与验收标准</a></li>
+    </ul>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section" id="s1">
+    <div class="section-number">01</div>
+    <h2>执行摘要与目标</h2>
+    <p>
+      基于 Andon Labs 从 Vending-Bench 论文到 Pion 平台的 19 个月技术演进分析，
+      本方案将吸纳其<strong>分层治理、专业分工、运行时安全、分层记忆</strong>四大核心理念，
+      为团队设计一套可落地的长周期自治智能体系统。
+    </p>
+
+    <h3>核心目标</h3>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-value">7×24</div><div class="stat-label">持续运行能力</div></div>
+      <div class="stat-card"><div class="stat-value">4层</div><div class="stat-label">治理架构</div></div>
+      <div class="stat-card"><div class="stat-value">200k+</div><div class="stat-label">上下文管理</div></div>
+      <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">核心模块</div></div>
+      <div class="stat-card"><div class="stat-value">16周</div><div class="stat-label">落地周期</div></div>
+    </div>
+
+    <h3>设计原则</h3>
+    <ul>
+      <li><strong>业务导向</strong>：工具围绕业务动词设计，而非围绕 API 设计</li>
+      <li><strong>分层治理</strong>：人类 → 监督Agent → 主Agent → 子Agent 四层架构</li>
+      <li><strong>安全先行</strong>：运行时 Guardrail 与 Agent 同步开发，而非事后补丁</li>
+      <li><strong>渐进增强</strong>：四阶段交付，每阶段可独立验证</li>
+      <li><strong>真实优先</strong>：尽早接入真实系统（邮件、银行、ERP），而非长期在模拟环境中验证</li>
+    </ul>
+
+    <div class="insight-box">
+      <div class="label">核心借鉴</div>
+      <p>
+        Andon Labs 最值得借鉴的不是某个算法，而是<strong>工程体系</strong>：
+        让 Agent 在真实约束下长期承担责任的整套基础设施。
+        本方案的每一步设计都围绕"能否在真实环境中长期运行"来展开。
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section" id="s2">
+    <div class="section-number">02</div>
+    <h2>目标系统架构总览</h2>
+    <p>借鉴 Andon Labs Pion 平台的五层架构，设计团队的目标系统：</p>
+
+    <div class="arch-diagram"><span class="l1">┌─ L0 治理层 Governance ──────────────────────────────────────┐</span>
+│  人类 operator                                                │
+│    ↓ 设定方向 / 审批 / 介入                                    │
+│  Supervisor Agent (Andonos 式)                                │
+│    ↓ 监控行为 · 防止偏离 · 中立更新 · 人类升级                   │
+<span class="l1">└──────────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l2">┌─ L1 决策层 Strategy ───────────────────────────────────────┐</span>
+│  CEO Agent (主业务 Agent)                                     │
+│    ↓ 战略决策 · 任务分解 · 子Agent协调 · 记忆管理               │
+<span class="l2">└──────────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l3">┌─ L2 执行层 Operations ──────────────────────────────────────┐</span>
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐         │
+│  │ Procure  │ │ Finance  │ │ Market   │ │ Operate  │         │
+│  │ Agent    │ │ Agent    │ │ Agent    │ │ Agent    │         │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘         │
+│                                                               │
+│  ┌──────────────────────────────────────────────────────┐     │
+│  │ Fan-out: 临时Browser Agent × N (并行调研/比价)        │     │
+│  └──────────────────────────────────────────────────────┘     │
+<span class="l3">└──────────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l4">┌─ L3 工具层 Tooling ─────────────────────────────────────────┐</span>
+│  通信: Slack · Email · Phone                                   │
+│  商业: Bank · POS · ERP · Inventory                           │
+│  开发: Bash · Browser · Terminal                              │
+│  物理: Camera · IoT · Sensor                                  │
+<span class="l4">└──────────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l5">┌─ L4 基础设施层 Infrastructure ──────────────────────────────┐</span>
+│  Cloud Containers · 状态持久化 · 审计日志 · 健康监控 · 故障恢复  │
+<span class="l5">└──────────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <h3>与团队现有系统的对接</h3>
+    <p>团队已有六套 AI 产品，本系统将作为<strong>统一调度层</strong>接入：</p>
+    <table class="tbl">
+      <thead>
+        <tr><th>现有系统</th><th>在目标架构中的角色</th><th>接入方式</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>足球数据分析和预测系统</td><td>分析类子Agent的数据源</td><td>API 接入 → Operate Agent 调用</td></tr>
+        <tr><td>多维赛事数据自动采集系统</td><td>数据采集工具</td><td>工具注册 → 定时触发</td></tr>
+        <tr><td>XGBoost赛事预测系统</td><td>预测能力提供方</td><td>模型服务 → Finance Agent 风控参考</td></tr>
+        <tr><td>地图客户数据采集系统</td><td>客户获取工具</td><td>API → Market Agent 调用</td></tr>
+        <tr><td>视频自动生成系统</td><td>内容生产工具</td><td>脚本接入 → Market Agent 调用</td></tr>
+        <tr><td>视频多平台发布系统</td><td>分发工具</td><td>API → Market Agent 调用</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section" id="s3">
+    <div class="section-number">03</div>
+    <h2>四阶段实施路线图</h2>
+    <p>按优先级分为四阶段，每阶段可独立交付和验证：</p>
+
+    <div class="phase-grid">
+      <div class="phase-card p0">
+        <div class="phase-header">
+          <span class="phase-badge p0">Phase 0</span>
+          <span class="phase-title">基础设施层</span>
+          <span class="phase-duration">第 1-3 周</span>
+        </div>
+        <div class="phase-body">
+          <strong>目标</strong>：搭建 Agent 运行的底层基础设施。<br>
+          <strong>交付物</strong>：容器化运行时、状态持久化、基础工具注册表、健康监控、日志审计。<br>
+          <strong>验证标准</strong>：一个最简 Agent 可在容器中持续运行 72 小时不崩溃，状态可恢复。
+        </div>
+      </div>
+
+      <div class="phase-card p1">
+        <div class="phase-header">
+          <span class="phase-badge p1">Phase 1</span>
+          <span class="phase-title">核心Agent引擎</span>
+          <span class="phase-duration">第 4-8 周</span>
+        </div>
+        <div class="phase-body">
+          <strong>目标</strong>：单 Agent 长周期稳定运行。<br>
+          <strong>交付物</strong>：分层压缩记忆系统、事件驱动调度（wait time）、业务导向工具系统、上下文溢出自动压缩。<br>
+          <strong>验证标准</strong>：Agent 能在 200k token 上下文限制下连续运行 7 天，记忆压缩正确触发，关键状态不丢失。
+        </div>
+      </div>
+
+      <div class="phase-card p2">
+        <div class="phase-header">
+          <span class="phase-badge p2">Phase 2</span>
+          <span class="phase-title">多Agent协作层</span>
+          <span class="phase-duration">第 9-12 周</span>
+        </div>
+        <div class="phase-body">
+          <strong>目标</strong>：主Agent + 专业子Agent + 临时子Agent 协作体系。<br>
+          <strong>交付物</strong>：子Agent管理器（spawn/监控/结果汇总）、持久专业子Agent（采购/财务/营销/运营）、Fan-out 并行子Agent、Agent间结构化通信。<br>
+          <strong>验证标准</strong>：主Agent 能并行 fan-out 5个子Agent 做供应商调研，结果正确汇总，子Agent 异常不影响主Agent。
+        </div>
+      </div>
+
+      <div class="phase-card p3">
+        <div class="phase-header">
+          <span class="phase-badge p3">Phase 3</span>
+          <span class="phase-title">治理与安全层</span>
+          <span class="phase-duration">第 13-16 周</span>
+        </div>
+        <div class="phase-body">
+          <strong>目标</strong>：监督Agent + 运行时Guardrail + 人类升级通道。<br>
+          <strong>交付物</strong>：Supervisor Agent（Andonos式）、行为监控引擎、规则引擎、违规警告系统、人类介入通道、敏感信息脱敏、权限隔离。<br>
+          <strong>验证标准</strong>：Agent 违规时（如超预算采购）能被自动检测并警告，严重违规能升级人类介入，敏感信息不泄露。
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="label">阶段依赖关系</div>
+      <p>
+        Phase 0 → Phase 1 → Phase 2 为强依赖链，必须顺序执行。
+        Phase 3 的部分工作（如规则定义）可与 Phase 2 并行启动，
+        但 Supervisor Agent 需要 Phase 2 的多Agent架构完成后才能完整实现。
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 4: Phase 0 -->
+  <div class="section" id="s4">
+    <div class="section-number">04</div>
+    <h2>Phase 0：基础设施层（第 1-3 周）</h2>
+
+    <h3>4.1 容器化运行时</h3>
+    <p>借鉴 Pion 的云端容器架构，为每个 Agent 提供隔离运行环境。</p>
+    <div class="code-block">
+<span class="cmt"># infra/container_runtime.py</span>
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">from</span> typing <span class="kw">import</span> Optional
+<span class="kw">import</span> asyncio, json, time
+
+<span class="kw">@dataclass</span>
+<span class="kw">class</span> <span class="cls">AgentContainer</span>:
+    agent_id: <span class="type">str</span>
+    name: <span class="type">str</span>
+    role: <span class="type">str</span>
+    <span class="cmt"># 容器配置</span>
+    max_memory: <span class="type">str</span> = <span class="str">"2G"</span>
+    max_cpu: <span class="type">float</span> = <span class="num">1.0</span>
+    timeout_seconds: <span class="type">int</span> = <span class="num">3600</span>
+    <span class="cmt"># 状态</span>
+    status: <span class="type">str</span> = <span class="str">"stopped"</span>  <span class="cmt"># stopped | running | crashed | paused</span>
+    started_at: Optional[<span class="type">float</span>] = <span class="kw">None</span>
+    last_heartbeat: Optional[<span class="type">float</span>] = <span class="kw">None</span>
+
+    <span class="kw">async def</span> <span class="fn">start</span>(self):
+        <span class="cmt"># 启动容器，恢复持久化状态</span>
+        <span class="kw">await</span> self.<span class="fn">_restore_state</span>()
+        self.status = <span class="str">"running"</span>
+        self.started_at = time.<span class="fn">time</span>()
+        <span class="cmt"># 启动心跳</span>
+        asyncio.<span class="fn">create_task</span>(self.<span class="fn">_heartbeat_loop</span>())
+
+    <span class="kw">async def</span> <span class="fn">_heartbeat_loop</span>(self):
+        <span class="kw">while</span> self.status == <span class="str">"running"</span>:
+            self.last_heartbeat = time.<span class="fn">time</span>()
+            <span class="kw">await</span> asyncio.<span class="fn">sleep</span>(<span class="num">30</span>)
+            <span class="cmt"># 检查是否需要重启</span>
+            <span class="kw">if</span> self.<span class="fn">_detect_meltdown</span>():
+                <span class="kw">await</span> self.<span class="fn">_trigger_recovery</span>()
+
+    <span class="kw">async def</span> <span class="fn">_restore_state</span>(self):
+        <span class="cmt"># 从持久化存储恢复 Agent 状态</span>
+        <span class="kw">pass</span>
+
+    <span class="kw">def</span> <span class="fn">_detect_meltdown</span>(self) -> <span class="type">bool</span>:
+        <span class="cmt"># 检测：重复输出、工具使用退化、停滞</span>
+        <span class="kw">return</span> <span class="kw">False</span>
+    </div>
+
+    <h3>4.2 状态持久化</h3>
+    <p>Agent 的所有关键状态必须持久化，确保崩溃后可恢复：</p>
+    <div class="code-block">
+<span class="cmt"># infra/state_store.py</span>
+<span class="kw">class</span> <span class="cls">StateStore</span>:
+    <span class="str">"""Agent 状态持久化，借鉴 Pion 的可重启设计"""</span>
+
+    <span class="kw">async def</span> <span class="fn">save_state</span>(self, agent_id: <span class="type">str</span>, state: <span class="type">dict</span>):
+        <span class="cmt"># 保存：当前任务、对话历史、记忆、工具状态</span>
+        <span class="kw">await</span> self.redis.<span class="fn">hset</span>(
+            <span class="str">f"agent:{agent_id}:state"</span>,
+            mapping={
+                <span class="str">"task"</span>: json.<span class="fn">dumps</span>(state[<span class="str">"current_task"</span>]),
+                <span class="str">"memory"</span>: json.<span class="fn">dumps</span>(state[<span class="str">"memory"</span>]),
+                <span class="str">"context"</span>: json.<span class="fn">dumps</span>(state[<span class="str">"context"</span>][-<span class="num">20</span>:]),  <span class="cmt"># 最近20条</span>
+                <span class="str">"tools"</span>: json.<span class="fn">dumps</span>(state[<span class="str">"tool_states"</span>]),
+                <span class="str">"timestamp"</span>: <span class="fn">str</span>(time.<span class="fn">time</span>()),
+            }
+        )
+
+    <span class="kw">async def</span> <span class="fn">load_state</span>(self, agent_id: <span class="type">str</span>) -> <span class="type">dict</span>:
+        <span class="cmt"># 恢复：从 Redis 加载，用于 Agent 重启后恢复</span>
+        raw = <span class="kw">await</span> self.redis.<span class="fn">hgetall</span>(<span class="str">f"agent:{agent_id}:state"</span>)
+        <span class="kw">return</span> {k: json.<span class="fn">loads</span>(v) <span class="kw">for</span> k, v <span class="kw">in</span> raw.<span class="fn">items</span>()}
+
+    <span class="kw">async def</span> <span class="fn">save_checkpoint</span>(self, agent_id: <span class="type">str</span>):
+        <span class="cmt"># 定期检查点：每 N 分钟保存一次完整快照</span>
+        <span class="kw">pass</span>
+    </div>
+
+    <h3>4.3 基础工具注册表</h3>
+    <p>借鉴 Andon Labs "Batteries Included" 理念，预置常用工具：</p>
+    <div class="code-block">
+<span class="cmt"># infra/tool_registry.py</span>
+<span class="kw">from</span> enum <span class="kw">import</span> Enum
+
+<span class="kw">class</span> <span class="cls">ToolCategory</span>(Enum):
+    COMMUNICATION = <span class="str">"communication"</span>   <span class="cmt"># email, slack, phone</span>
+    COMMERCE = <span class="str">"commerce"</span>           <span class="cmt"># bank, pos, erp</span>
+    DEVELOPMENT = <span class="str">"development"</span>        <span class="cmt"># bash, browser, terminal</span>
+    PHYSICAL = <span class="str">"physical"</span>            <span class="cmt"># camera, iot, sensor</span>
+    SCHEDULING = <span class="str">"scheduling"</span>         <span class="cmt"># wait_time, reminder</span>
+
+<span class="kw">class</span> <span class="cls">ToolRegistry</span>:
+    <span class="str">"""工具注册表 + 权限管理 + 时间成本配置"""</span>
+
+    <span class="kw">def</span> <span class="fn">register</span>(self, name: <span class="type">str</span>, handler: <span class="type">callable</span>,
+                 category: ToolCategory, time_cost: <span class="type">int</span> = <span class="num">0</span>,
+                 requires_approval: <span class="type">bool</span> = <span class="kw">False</span>):
+        <span class="cmt"># time_cost: 工具调用的模拟时间消耗（分钟）</span>
+        <span class="cmt"># requires_approval: 是否需要人类审批（如付款、签合同）</span>
+        self._tools[name] = {
+            <span class="str">"handler"</span>: handler,
+            <span class="str">"category"</span>: category,
+            <span class="str">"time_cost"</span>: time_cost,
+            <span class="str">"requires_approval"</span>: requires_approval,
+        }
+
+    <span class="kw">async def</span> <span class="fn">execute</span>(self, agent_id: <span class="type">str</span>, tool_name: <span class="type">str</span>,
+                        args: <span class="type">dict</span>) -> <span class="type">dict</span>:
+        tool = self._tools[tool_name]
+        <span class="kw">if</span> tool[<span class="str">"requires_approval"</span>]:
+            <span class="kw">await</span> self.<span class="fn">_request_human_approval</span>(agent_id, tool_name, args)
+        result = <span class="kw">await</span> tool[<span class="str">"handler"</span>](**args)
+        <span class="cmt"># 审计日志</span>
+        <span class="kw">await</span> self.audit_log.<span class="fn">record</span>(agent_id, tool_name, args, result)
+        <span class="kw">return</span> result
+    </div>
+
+    <h3>4.4 健康监控</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">💓</div>
+        <div class="card-title">心跳检测</div>
+        <div class="card-desc">每30秒心跳，超时60秒判定为崩溃，自动重启</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔁</div>
+        <div class="card-title">Meltdown 检测</div>
+        <div class="card-desc">检测重复输出、工具使用退化、推理停滞</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">性能追踪</div>
+        <div class="card-desc">工具使用频率、决策延迟、token 消耗趋势</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚨</div>
+        <div class="card-title">告警通知</div>
+        <div class="card-desc">Slack/邮件通知异常，支持升级通道</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Phase 1 -->
+  <div class="section" id="s5">
+    <div class="section-number">05</div>
+    <h2>Phase 1：核心Agent引擎（第 4-8 周）</h2>
+
+    <h3>5.1 分层压缩记忆系统</h3>
+    <p>
+      <strong>这是 Andon Labs 技术演进中最重要的理念转变</strong>：
+      从 Vending-Bench 的三层存储（Scratchpad + KV + Vector DB）
+      转向 Andon Market 实际使用的分层压缩（Long-term + Short-term + Latest）。
+    </p>
+
+    <div class="arch-diagram"><span class="l1">上下文窗口（如 200k tokens）</span>
+│
+├── <span class="l2">Long-term Memory（长期记忆 — 压缩后注入）</span>
+│   ├── 角色与使命          <span class="cmt"># "你是XX Agent，负责YY"</span>
+│   ├── 核心政策与约束       <span class="cmt"># 不可违反的规则</span>
+│   ├── 关键实体信息         <span class="cmt"># 公司/账户/人员/系统</span>
+│   └── 历史重要决策         <span class="cmt"># 过去做过的关键决定</span>
+│
+├── <span class="l3">Short-term Memory（短期记忆 — 压缩后注入）</span>
+│   ├── 当前任务状态         <span class="cmt"># 正在做什么、进度如何</span>
+│   ├── 近期关键事件         <span class="cmt"># 今天发生了什么</span>
+│   ├── 待处理事项           <span class="cmt"># 等待中的订单/回复</span>
+│   └── 当前优先级           <span class="cmt"># 现在最重要的是什么</span>
+│
+└── <span class="l4">Latest Messages（最近消息 — 原文保留）</span>
+    └── 最近 N 条对话/工具调用结果
+
+<span class="cmt"># 压缩触发：上下文使用量 > 阈值（如 150k / 200k）</span>
+<span class="cmt"># 压缩方式：LLM 总结 + 结构化提取</span>
+<span class="cmt"># 注入位置：下一轮上下文顶部</span>
+    </div>
+
+    <div class="code-block">
+<span class="cmt"># core/memory/hierarchical_memory.py</span>
+<span class="kw">class</span> <span class="cls">HierarchicalMemory</span>:
+    <span class="str">"""分层压缩记忆系统</span>
+<span class="str">    借鉴 Andon Market 实际方案：当上下文超阈值时自动压缩</span>
+<span class="str">    """</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, llm, max_context_tokens: <span class="type">int</span> = <span class="num">200000</span>):
+        self.llm = llm
+        self.max_context = max_context_tokens
+        self.compress_threshold = <span class="type">int</span>(max_context_tokens * <span class="num">0.75</span>)  <span class="cmt"># 150k</span>
+        self.long_term = {}
+        self.short_term = {}
+        self.latest_messages = []
+
+    <span class="kw">async def</span> <span class="fn">add_message</span>(self, message: <span class="type">dict</span>):
+        self.latest_messages.<span class="fn">append</span>(message)
+
+        <span class="cmt"># 检查是否需要压缩</span>
+        current_tokens = self.<span class="fn">_estimate_tokens</span>()
+        <span class="kw">if</span> current_tokens > self.compress_threshold:
+            <span class="kw">await</span> self.<span class="fn">_compress</span>()
+
+    <span class="kw">async def</span> <span class="fn">_compress</span>(self):
+        <span class="str">"""核心压缩逻辑：将旧消息压缩为长期/短期记忆"""</span>
+
+        <span class="cmt"># 1. 分离：最近20条保留，其余进入压缩</span>
+        to_compress = self.latest_messages[:-<span class="num">20</span>]
+        self.latest_messages = self.latest_messages[-<span class="num">20</span>:]
+
+        <span class="cmt"># 2. LLM 压缩为结构化记忆</span>
+        compressed = <span class="kw">await</span> self.llm.<span class="fn">compress</span>(
+            context=to_compress,
+            current_long_term=self.long_term,
+            current_short_term=self.short_term,
+            prompt=<span class="str">"""请将以下对话历史压缩为结构化记忆。
+
+            输出格式：
+            long_term:
+              - role: 角色与使命（不变的部分）
+              - policies: 核心政策与约束
+              - entities: 关键实体信息（公司/账户/人员）
+              - decisions: 历史重要决策
+
+            short_term:
+              - current_task: 当前任务状态
+              - recent_events: 近期关键事件
+              - pending: 待处理事项
+              - priorities: 当前优先级
+
+            规则：
+              - 长期记忆只保留不变或极少变化的信息
+              - 短期记忆保留当前可变状态
+              - 敏感信息（非团队成员姓名等）必须脱敏
+            """</span>
+        )
+
+        <span class="cmt"># 3. 合并：新压缩的记忆与旧记忆合并</span>
+        self.long_term = compressed[<span class="str">"long_term"</span>]
+        self.short_term = compressed[<span class="str">"short_term"</span>]
+
+    <span class="kw">def</span> <span class="fn">build_context</span>(self) -> <span class="type">str</span>:
+        <span class="str">"""构建完整上下文：长期 + 短期 + 最近消息"""</span>
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"""
+        === 长期记忆 ===
+        {json.dumps(self.long_term, ensure_ascii=False, indent=2)}
+
+        === 短期记忆 ===
+        {json.dumps(self.short_term, ensure_ascii=False, indent=2)}
+
+        === 最近对话 ===
+        {self._format_messages(self.latest_messages)}
+        """</span>
+    </div>
+
+    <div class="warning-box">
+      <div class="label">反直觉设计要点</div>
+      <p>
+        <strong>更大的记忆 ≠ 更好的表现</strong>（Andon Labs 在 Vending-Bench 中已验证）。
+        压缩记忆的核心不是"记住更多"，而是"记住更准"。
+        长期记忆只保留不变信息，短期记忆只保留当前状态，其余的果断丢弃。
+      </p>
+    </div>
+
+    <h3>5.2 事件驱动调度（Wait Time 机制）</h3>
+    <p>借鉴 Andon Market 的 wait time 工具，实现事件驱动等待：</p>
+    <div class="code-block">
+<span class="cmt"># core/scheduling/event_waiter.py</span>
+<span class="kw">class</span> <span class="cls">EventDrivenWaiter</span>:
+    <span class="str">"""事件驱动等待：Agent 可等待指定时间或事件唤醒</span>
+<span class="str">    借鉴 Andon Market Luna 的 wait time 工具</span>
+<span class="str">    """</span>
+
+    <span class="kw">async def</span> <span class="fn">wait</span>(self, agent_id: <span class="type">str</span>,
+                  duration_minutes: <span class="type">int</span> = <span class="kw">None</span>,
+                  wake_events: <span class="type">list</span> = <span class="kw">None</span>) -> <span class="type">dict</span>:
+        <span class="str">"""等待指定时间，期间可被事件唤醒</span>
+<span class="str">        wake_events: ["new_email", "subagent_complete", "slack_message"]</span>
+<span class="str">        """</span>
+
+        <span class="cmt"># 注册事件监听</span>
+        <span class="kw">if</span> wake_events:
+            <span class="kw">for</span> event_type <span class="kw">in</span> wake_events:
+                <span class="kw">await</span> self.event_bus.<span class="fn">subscribe</span>(
+                    agent_id, event_type, self.<span class="fn">_wake_callback</span>
+                )
+
+        <span class="cmt"># 等待：超时 或 事件触发</span>
+        <span class="kw">try</span>:
+            <span class="kw">if</span> duration_minutes:
+                <span class="kw">await</span> asyncio.<span class="fn">wait_for</span>(
+                    self._wait_event.<span class="fn">wait</span>(),
+                    timeout=duration_minutes * <span class="num">60</span>
+                )
+                <span class="kw">return</span> {<span class="str">"woken_by"</span>: <span class="str">"event"</span>}
+            <span class="kw">else</span>:
+                <span class="kw">await</span> self._wait_event.<span class="fn">wait</span>()
+                <span class="kw">return</span> {<span class="str">"woken_by"</span>: <span class="str">"event"</span>}
+        <span class="kw">except</span> asyncio.TimeoutError:
+            <span class="kw">return</span> {<span class="str">"woken_by"</span>: <span class="str">"timeout"</span>}
+
+    <span class="kw">async def</span> <span class="fn">_wake_callback</span>(self, event: <span class="type">dict</span>):
+        <span class="cmt"># 事件到达，唤醒 Agent</span>
+        self._wait_event.<span class="fn">set</span>()
+    </div>
+
+    <h3>5.3 业务导向工具系统</h3>
+    <p>工具设计原则：<strong>从业务动词出发，不从 API 出发</strong>。</p>
+    <table class="tbl">
+      <thead>
+        <tr><th>业务动词</th><th>工具名</th><th>底层API</th><th>时间成本</th><th>需审批</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>检查库存</td><td><code>check_stock</code></td><td>ERP API</td><td>0</td><td>否</td></tr>
+        <tr><td>下采购单</td><td><code>place_order</code></td><td>供应商邮件+银行转账</td><td>60</td><td><strong>是</strong></td></tr>
+        <tr><td>更新排班</td><td><code>update_schedule</code></td><td>排班系统API</td><td>5</td><td>否</td></tr>
+        <tr><td>发布内容</td><td><code>publish_content</code></td><td>视频生成+发布API</td><td>30</td><td>否</td></tr>
+        <tr><td>审批退款</td><td><code>approve_refund</code></td><td>支付系统API</td><td>10</td><td><strong>是</strong></td></tr>
+        <tr><td>等待</td><td><code>wait_time</code></td><td>事件总线</td><td>可变</td><td>否</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 6: Phase 2 -->
+  <div class="section" id="s6">
+    <div class="section-number">06</div>
+    <h2>Phase 2：多Agent协作层（第 9-12 周）</h2>
+
+    <h3>6.1 子Agent管理器</h3>
+    <p>借鉴 Andon Market 的子Agent体系，实现三种子Agent模式：</p>
+    <div class="code-block">
+<span class="cmt"># multiagent/subagent_manager.py</span>
+<span class="kw">from</span> enum <span class="kw">import</span> Enum
+<span class="kw">import</span> asyncio
+
+<span class="kw">class</span> <span class="cls">SubAgentType</span>(Enum):
+    PERSISTENT = <span class="str">"persistent"</span>   <span class="cmt"># 持久专业子Agent（如采购Agent）</span>
+    TEMPORARY = <span class="str">"temporary"</span>    <span class="cmt"># 临时子Agent（如browser-use调研）</span>
+    SUPERVISOR = <span class="str">"supervisor"</span>   <span class="cmt"># 监督型Agent（Andonos）</span>
+
+<span class="kw">class</span> <span class="cls">SubAgentManager</span>:
+    <span class="str">"""子Agent管理器：spawn / 监控 / 结果汇总 / 超时处理</span>
+<span class="str">    借鉴 Andon Market Luna 的子Agent管理体系</span>
+<span class="str">    """</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, container_runtime, tool_registry, memory_store):
+        self.runtime = container_runtime
+        self.tools = tool_registry
+        self.memory = memory_store
+        self._persistent_agents = {}   <span class="cmt"># 持久子Agent注册表</span>
+        self._active_temporary = {}    <span class="cmt"># 活跃临时子Agent</span>
+
+    <span class="cmt"># === 持久专业子Agent ===</span>
+    <span class="kw">async def</span> <span class="fn">register_persistent</span>(self, name: <span class="type">str</span>, role: <span class="type">str</span>,
+                                       system_prompt: <span class="type">str</span>, tools: <span class="type">list</span>):
+        <span class="str">"""注册持久专业子Agent（如 Sage 采购、Iris 邮件）"""</span>
+        agent = <span class="kw">await</span> self.runtime.<span class="fn">create_agent</span>(
+            name=name, role=role,
+            system_prompt=system_prompt,
+            tools=tools,
+            memory=self.memory.<span class="fn">create_sub_memory</span>(name),
+        )
+        self._persistent_agents[name] = agent
+
+    <span class="cmt"># === Fan-out 并行临时子Agent ===</span>
+    <span class="kw">async def</span> <span class="fn">fan_out</span>(self, parent_id: <span class="type">str</span>,
+                     tasks: <span class="type">list</span>[<span class="type">dict</span>],
+                     timeout: <span class="type">int</span> = <span class="num">300</span>) -> <span class="type">list</span>[<span class="type">dict</span>]:
+        <span class="str">"""并行启动多个临时子Agent</span>
+<span class="str">        典型场景：并行调研多个供应商</span>
+<span class="str">        """</span>
+        <span class="kw">async def</span> <span class="fn">run_one</span>(task):
+            <span class="kw">try</span>:
+                agent = <span class="kw">await</span> self.runtime.<span class="fn">create_temporary_agent</span>(
+                    parent_id=parent_id,
+                    task=task,
+                    timeout=timeout,
+                )
+                result = <span class="kw">await</span> agent.<span class="fn">run</span>()
+                <span class="kw">return</span> {<span class="str">"task"</span>: task, <span class="str">"result"</span>: result, <span class="str">"status"</span>: <span class="str">"success"</span>}
+            <span class="kw">except</span> Exception <span class="kw">as</span> e:
+                <span class="kw">return</span> {<span class="str">"task"</span>: task, <span class="str">"error"</span>: <span class="fn">str</span>(e), <span class="str">"status"</span>: <span class="str">"failed"</span>}
+
+        <span class="cmt"># 并行执行，等待全部完成（或超时）</span>
+        results = <span class="kw">await</span> asyncio.<span class="fn">gather</span>(
+            *[<span class="fn">run_one</span>(t) <span class="kw">for</span> t <span class="kw">in</span> tasks],
+            return_exceptions=<span class="kw">True</span>
+        )
+        <span class="kw">return</span> results
+
+    <span class="cmt"># === 主Agent 调整子Agent prompt ===</span>
+    <span class="kw">async def</span> <span class="fn">update_subagent_prompt</span>(self, agent_name: <span class="type">str</span>,
+                                           new_prompt: <span class="type">str</span>):
+        <span class="str">"""主Agent 可动态修改子Agent的 system prompt</span>
+<span class="str">        借鉴 Luna 可修改子Agent system prompt 的设计</span>
+<span class="str">        """</span>
+        agent = self._persistent_agents[agent_name]
+        <span class="kw">await</span> agent.<span class="fn">update_system_prompt</span>(new_prompt)
+    </div>
+
+    <h3>6.2 Agent间结构化通信</h3>
+    <p>借鉴 Andon Market 的内部消息系统，实现 Agent 间命名通信：</p>
+    <div class="code-block">
+<span class="cmt"># multiagent/agent_messaging.py</span>
+<span class="kw">class</span> <span class="cls">AgentMessaging</span>:
+    <span class="str">"""Agent 间结构化通信系统</span>
+<span class="str">    借鉴 Andon Market 内部 messaging system</span>
+<span class="str">    """</span>
+
+    <span class="kw">async def</span> <span class="fn">send</span>(self, from_agent: <span class="type">str</span>, to_agent: <span class="type">str</span>,
+                  message_type: <span class="type">str</span>, payload: <span class="type">dict</span>):
+        <span class="str">"""发送结构化消息</span>
+<span class="str">        message_type: task_assignment | result | query | alert</span>
+<span class="str">        """</span>
+        msg = {
+            <span class="str">"from"</span>: from_agent,
+            <span class="str">"to"</span>: to_agent,
+            <span class="str">"type"</span>: message_type,
+            <span class="str">"payload"</span>: payload,
+            <span class="str">"timestamp"</span>: time.<span class="fn">time</span>(),
+            <span class="str">"message_id"</span>: <span class="fn">str</span>(uuid.<span class="fn">uuid4</span>()),
+        }
+        <span class="kw">await</span> self.event_bus.<span class="fn">publish</span>(
+            <span class="fn">f</span><span class="str">"agent:{to_agent}:inbox"</span>, msg
+        )
+        <span class="cmt"># 审计日志</span>
+        <span class="kw">await</span> self.audit.<span class="fn">record_communication</span>(msg)
+
+    <span class="kw">async def</span> <span class="fn">receive</span>(self, agent_name: <span class="type">str</span>) -> <span class="type">list</span>[<span class="type">dict</span>]:
+        <span class="str">"""接收发往该Agent的所有消息"""</span>
+        <span class="kw">return</span> <span class="kw">await</span> self.event_bus.<span class="fn">drain</span>(
+            <span class="fn">f</span><span class="str">"agent:{agent_name}:inbox"</span>
+        )
+    </div>
+
+    <h3>6.3 权限隔离设计</h3>
+    <p>借鉴 Andon Market 的职责分离原则（如 Cadence 负责排班但不能直接联系员工）：</p>
+    <table class="tbl">
+      <thead>
+        <tr><th>子Agent</th><th>职责</th><th>可用工具</th><th>不可用工具</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Procurement</td><td>采购</td><td>email, browser, bank(查询)</td><td>bank(转账), publish</td></tr>
+        <tr><td>Finance</td><td>财务</td><td>bank(全部), erp</td><td>email外部, publish</td></tr>
+        <tr><td>Marketing</td><td>营销</td><td>video_gen, publish, social</td><td>bank, erp写入</td></tr>
+        <tr><td>Operations</td><td>运营</td><td>inventory, scheduling, camera</td><td>bank, publish</td></tr>
+        <tr><td>Security</td><td>安全</td><td>audit_log, monitor</td><td>所有业务工具（只读）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 7: Phase 3 -->
+  <div class="section" id="s7">
+    <div class="section-number">07</div>
+    <h2>Phase 3：治理与安全层（第 13-16 周）</h2>
+
+    <h3>7.1 Supervisor Agent（Andonos 式）</h3>
+    <p>借鉴 Andon Labs 最具创新性的架构设计——用 Agent 监督 Agent：</p>
+    <div class="code-block">
+<span class="cmt"># governance/supervisor_agent.py</span>
+<span class="kw">class</span> <span class="cls">SupervisorAgent</span>:
+    <span class="str">"""监督型 Agent（Andonos 式）</span>
+<span class="str">    位于人类和业务Agent之间，负责：</span>
+<span class="str">    - 监控行为与 system prompt 的一致性</span>
+<span class="str">    - 检测偏离并警告</span>
+<span class="str">    - 提供中立状态更新</span>
+<span class="str">    - 严重时升级人类介入</span>
+<span class="str">    """</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, llm, rule_engine, human_channel):
+        self.llm = llm
+        self.rules = rule_engine
+        self.human_channel = human_channel
+        self._business_agents = {}   <span class="cmt"># 监督的业务Agent</span>
+        self._warnings = {}          <span class="cmt"># 警告历史</span>
+
+    <span class="kw">async def</span> <span class="fn">supervise</span>(self, agent_id: <span class="type">str</span>, agent_name: <span class="type">str</span>):
+        <span class="str">"""持续监督一个业务Agent"""</span>
+        self._business_agents[agent_id] = agent_name
+
+        <span class="kw">while</span> <span class="kw">True</span>:
+            <span class="cmt"># 1. 获取 Agent 当前状态</span>
+            state = <span class="kw">await</span> self.<span class="fn">_get_agent_state</span>(agent_id)
+            behavior = <span class="kw">await</span> self.<span class="fn">_get_recent_behavior</span>(agent_id)
+
+            <span class="cmt"># 2. 规则检查</span>
+            violations = <span class="kw">await</span> self.rules.<span class="fn">check</span>(state, behavior)
+
+            <span class="kw">if</span> violations:
+                <span class="kw">for</span> v <span class="kw">in</span> violations:
+                    <span class="cmt"># 3. 先警告 Agent 自行纠正</span>
+                    <span class="kw">await</span> self.<span class="fn">_warn_agent</span>(agent_id, v)
+
+                    <span class="cmt"># 4. 严重违规：升级人类</span>
+                    <span class="kw">if</span> v.severity == <span class="str">"critical"</span>:
+                        <span class="kw">await</span> self.human_channel.<span class="fn">escalate</span>(
+                            agent_name, v, state
+                        )
+
+            <span class="cmt"># 5. 生成中立状态更新（给人类）</span>
+            update = <span class="kw">await</span> self.<span class="fn">_generate_neutral_update</span>(agent_id, state)
+            <span class="kw">await</span> self.human_channel.<span class="fn">report</span>(update)
+
+            <span class="kw">await</span> asyncio.<span class="fn">sleep</span>(<span class="num">300</span>)  <span class="cmt"># 5分钟一轮</span>
+
+    <span class="kw">async def</span> <span class="fn">_generate_neutral_update</span>(self, agent_id, state) -> <span class="type">str</span>:
+        <span class="str">"""生成中立状态更新，避免业务Agent自欺欺人</span>
+<span class="str">        借鉴 Andonos "提供中立更新" 的设计</span>
+<span class="str">        """</span>
+        <span class="kw">return</span> <span class="kw">await</span> self.llm.<span class="fn">summarize</span>(
+            prompt=<span class="fn">f</span><span class="str">"""基于以下Agent状态，生成客观中立的状态报告：
+
+            业务目标：{state.get('goal')}
+            当前进展：{state.get('progress')}
+            近期决策：{state.get('recent_decisions')}
+            异常事件：{state.get('anomalies')}
+
+            要求：
+            - 基于事实，不美化
+            - 如果发现偏离目标，明确指出
+            - 如果发现风险，明确标注
+            """</span>
+        )
+    </div>
+
+    <h3>7.2 运行时 Guardrail 引擎</h3>
+    <p>借鉴 Andon Market 的 Guardrail 系统，实现运行时行为监控：</p>
+    <div class="code-block">
+<span class="cmt"># governance/guardrail/rule_engine.py</span>
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> enum <span class="kw">import</span> Enum
+
+<span class="kw">class</span> <span class="cls">Severity</span>(Enum):
+    LOW = <span class="str">"low"</span>        <span class="cmt"># 警告Agent自行纠正</span>
+    MEDIUM = <span class="str">"medium"</span>    <span class="cmt"># 警告 + 限制工具</span>
+    HIGH = <span class="str">"high"</span>       <span class="cmt"># 警告 + 暂停操作</span>
+    CRITICAL = <span class="str">"critical"</span> <span class="cmt"># 升级人类介入</span>
+
+<span class="kw">@dataclass</span>
+<span class="kw">class</span> <span class="cls">Rule</span>:
+    name: <span class="type">str</span>
+    description: <span class="type">str</span>
+    check_fn: <span class="type">callable</span>
+    severity: Severity
+
+<span class="kw">class</span> <span class="cls">RuleEngine</span>:
+    <span class="str">"""运行时规则引擎</span>
+<span class="str">    借鉴 Andon Market Guardrail 持续比较行为与 system prompt</span>
+<span class="str">    """</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self._rules = []
+
+    <span class="kw">def</span> <span class="fn">register</span>(self, rule: Rule):
+        self._rules.<span class="fn">append</span>(rule)
+
+    <span class="kw">async def</span> <span class="fn">check</span>(self, state: <span class="type">dict</span>, behavior: <span class="type">dict</span>) -> <span class="type">list</span>:
+        violations = []
+        <span class="kw">for</span> rule <span class="kw">in</span> self._rules:
+            <span class="kw">if</span> <span class="kw">await</span> rule.<span class="fn">check_fn</span>(state, behavior):
+                violations.<span class="fn">append</span>(rule)
+        <span class="kw">return</span> violations
+
+<span class="cmt"># 预置规则示例</span>
+engine = <span class="cls">RuleEngine</span>()
+
+engine.<span class="fn">register</span>(<span class="cls">Rule</span>(
+    name=<span class="str">"budget_limit"</span>,
+    description=<span class="str">"单次采购不超过预算上限"</span>,
+    check_fn=<span class="kw">lambda</span> s, b: b.<span class="fn">get</span>(<span class="str">"order_amount"</span>, <span class="num">0</span>) > s.<span class="fn">get</span>(<span class="str">"budget_limit"</span>, <span class="num">0</span>),
+    severity=Severity.HIGH,
+))
+
+engine.<span class="fn">register</span>(<span class="cls">Rule</span>(
+    name=<span class="str">"no_unauthorized_contract"</span>,
+    description=<span class="str">"未经审批不得发送合同"</span>,
+    check_fn=<span class="kw">lambda</span> s, b: b.<span class="fn">get</span>(<span class="str">"action"</span>) == <span class="str">"send_contract"</span> <span class="kw">and</span> <span class="kw">not</span> b.<span class="fn">get</span>(<span class="str">"approved"</span>),
+    severity=Severity.CRITICAL,
+))
+
+engine.<span class="fn">register</span>(<span class="cls">Rule</span>(
+    name=<span class="str">"sensitive_info_protection"</span>,
+    description=<span class="str">"不得在对外通信中暴露敏感信息"</span>,
+    check_fn=<span class="kw">lambda</span> s, b: <span class="fn">contains_sensitive</span>(b.<span class="fn">get</span>(<span class="str">"message_content"</span>, <span class="str">""</span>)),
+    severity=Severity.CRITICAL,
+))
+
+engine.<span class="fn">register</span>(<span class="cls">Rule</span>(
+    name=<span class="str">"schedule_compliance"</span>,
+    description=<span class="str">"排班不得违反劳动规则（如连续超时）"</span>,
+    check_fn=<span class="kw">lambda</span> s, b: <span class="fn">violates_labor_law</span>(b.<span class="fn">get</span>(<span class="str">"schedule"</span>)),
+    severity=Severity.MEDIUM,
+))
+    </div>
+
+    <h3>7.3 人类介入通道</h3>
+    <div class="arch-diagram"><span class="l1">Agent 行为</span>
+    ↓
+<span class="l2">Guardrail 规则检查</span>
+    ├── <span class="l4">LOW</span>: 警告 Agent → Agent 自行纠正
+    ├── <span class="l4">MEDIUM</span>: 警告 + 限制部分工具 → Slack 通知
+    ├── <span class="l3">HIGH</span>: 警告 + 暂停操作 → Slack + 邮件通知
+    └── <span class="l5">CRITICAL</span>: 升级人类 → 电话/Slack 即时通知 → 等待人类决策
+    </div>
+
+    <h3>7.4 敏感信息脱敏</h3>
+    <p>借鉴 Andon Market 记忆系统中的信息保护机制：</p>
+    <div class="code-block">
+<span class="cmt"># governance/security/redactor.py</span>
+<span class="kw">class</span> <span class="cls">SensitiveInfoRedactor</span>:
+    <span class="str">"""敏感信息脱敏：借鉴 Andon Market 非 Andon 员工姓名脱敏"""</span>
+
+    REDACTION_RULES = {
+        <span class="str">"non_employee_names"</span>: <span class="kw">True</span>,    <span class="cmt"># 非团队成员姓名替换</span>
+        <span class="str">"bank_account_full"</span>: <span class="kw">True</span>,       <span class="cmt"># 银行账号部分遮蔽</span>
+        <span class="str">"personal_address"</span>: <span class="kw">True</span>,        <span class="cmt"># 个人地址脱敏</span>
+        <span class="str">"phone_numbers"</span>: <span class="kw">True</span>,           <span class="cmt"># 手机号部分遮蔽</span>
+        <span class="str">"passwords_tokens"</span>: <span class="kw">True</span>,       <span class="cmt"># 密码/Token 完全遮蔽</span>
+    }
+
+    <span class="kw">def</span> <span class="fn">redact</span>(self, text: <span class="type">str</span>, context: <span class="type">str</span>) -> <span class="type">str</span>:
+        <span class="str">"""根据上下文脱敏</span>
+<span class="str">        context: "memory" | "external_comm" | "log" | "audit"</span>
+<span class="str">        """</span>
+        <span class="cmt"># 对外通信：最严格脱敏</span>
+        <span class="kw">if</span> context == <span class="str">"external_comm"</span>:
+            text = self.<span class="fn">_redact_all</span>(text)
+        <span class="cmt"># 记忆存储：中等脱敏</span>
+        <span class="kw">elif</span> context == <span class="str">"memory"</span>:
+            text = self.<span class="fn">_redact_non_employees</span>(text)
+        <span class="kw">return</span> text
+    </div>
+  </div>
+
+  <!-- Section 8: 技术栈选型 -->
+  <div class="section" id="s8">
+    <div class="section-number">08</div>
+    <h2>技术栈选型</h2>
+    <table class="tbl">
+      <thead>
+        <tr><th>层次</th><th>选型</th><th>理由</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>主语言</strong></td><td>Python 3.12+</td><td>AI 生态最完善，团队已在使用</td></tr>
+        <tr><td><strong>API 框架</strong></td><td>FastAPI</td><td>异步原生、OpenAPI 自动文档</td></tr>
+        <tr><td><strong>LLM 调用</strong></td><td>OpenAI SDK / Anthropic SDK</td><td>支持多模型切换</td></tr>
+        <tr><td><strong>容器运行时</strong></td><td>Docker + Docker Compose</td><td>初期够用，后续可迁移 K8s</td></tr>
+        <tr><td><strong>状态持久化</strong></td><td>Redis (热数据) + PostgreSQL (冷数据)</td><td>热数据快速恢复，冷数据持久审计</td></tr>
+        <tr><td><strong>事件总线</strong></td><td>Redis Pub/Sub 或 RabbitMQ</td><td>Agent 间通信、事件驱动唤醒</td></tr>
+        <tr><td><strong>审计日志</strong></td><td>PostgreSQL + Elasticsearch</td><td>结构化存储 + 全文检索</td></tr>
+        <tr><td><strong>监控告警</strong></td><td>Grafana + Prometheus</td><td>心跳、性能指标可视化</td></tr>
+        <tr><td><strong>任务队列</strong></td><td>Celery + Redis</td><td>异步任务、定时检查点</td></tr>
+        <tr><td><strong>沙箱</strong></td><td>Firecracker 或 Docker 隔离</td><td>Bash 工具的安全沙箱</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box">
+      <div class="label">技术栈原则</div>
+      <p>
+        初期优先选团队熟悉的技术（Python、FastAPI、Redis、Docker），
+        <strong>不追求技术栈先进，追求快速落地和可维护</strong>。
+        Andon Labs 自己也是用传统金融系统而非发明新协议——能用成熟方案就不自己造轮子。
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 9: 团队分工 -->
+  <div class="section" id="s9">
+    <div class="section-number">09</div>
+    <h2>团队分工与资源配置</h2>
+
+    <h3>9.1 角色与职责</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>角色</th><th>负责模块</th><th>阶段</th><th>投入</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>架构师 ×1</strong></td><td>整体架构设计、技术选型、Phase 3 治理层</td><td>全程</td><td>100%</td></tr>
+        <tr><td><strong>后端工程师 ×2</strong></td><td>Phase 0 基础设施 + Phase 1 核心引擎</td><td>P0-P1</td><td>100%</td></tr>
+        <tr><td><strong>AI 工程师 ×1</strong></td><td>记忆系统压缩逻辑、LLM prompt 工程</td><td>P1-P2</td><td>100%</td></tr>
+        <tr><td><strong>后端工程师 ×1</strong></td><td>Phase 2 多Agent协作层</td><td>P2</td><td>100%</td></tr>
+        <tr><td><strong>安全工程师 ×1</strong></td><td>Phase 3 Guardrail + 规则引擎 + 脱敏</td><td>P3（P2可并行启动规则定义）</td><td>50%-100%</td></tr>
+        <tr><td><strong>DevOps ×1</strong></td><td>容器化、监控、CI/CD</td><td>P0起步，全程</td><td>50%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>9.2 各阶段里程碑</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>阶段</th><th>周次</th><th>里程碑</th><th>交付物</th></tr>
+      </thead>
+      <tbody>
+        <tr class="p0"><td class="p0">P0</td><td>W1</td><td>容器运行时 + 状态持久化</td><td>Agent 可在容器中启动/停止/恢复</td></tr>
+        <tr class="p0"><td class="p0">P0</td><td>W2</td><td>工具注册表 + 基础工具</td><td>5+ 基础工具可调用</td></tr>
+        <tr class="p0"><td class="p0">P0</td><td>W3</td><td>健康监控 + 审计日志</td><td>72h 持续运行验证通过</td></tr>
+        <tr class="p1"><td class="p1">P1</td><td>W4-5</td><td>分层压缩记忆系统</td><td>记忆压缩正确触发</td></tr>
+        <tr class="p1"><td class="p1">P1</td><td>W6</td><td>事件驱动调度</td><td>wait_time + 事件唤醒</td></tr>
+        <tr class="p1"><td class="p1">P1</td><td>W7-8</td><td>业务导向工具完善</td><td>7天连续运行验证通过</td></tr>
+        <tr class="p2"><td class="p2">P2</td><td>W9-10</td><td>子Agent管理器 + 通信</td><td>持久子Agent + 消息系统</td></tr>
+        <tr class="p2"><td class="p2">P2</td><td>W11-12</td><td>Fan-out 并行 + 权限隔离</td><td>5个并行子Agent验证通过</td></tr>
+        <tr class="p3"><td class="p3">P3</td><td>W13-14</td><td>Supervisor Agent + 规则引擎</td><td>违规检测 + 警告 + 升级</td></tr>
+        <tr class="p3"><td class="p3">P3</td><td>W15-16</td><td>Guardrail 完善 + 脱敏 + 全链路验证</td><td>端到端安全验证通过</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 10: 风险评估 -->
+  <div class="section" id="s10">
+    <div class="section-number">10</div>
+    <h2>风险评估与对策</h2>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>风险</th><th>概率</th><th>影响</th><th>对策</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>记忆压缩丢失关键信息</strong></td>
+          <td>高</td>
+          <td>高</td>
+          <td>压缩前自动保存完整快照到 PostgreSQL；关键状态用结构化 KV 补充</td>
+        </tr>
+        <tr>
+          <td><strong>Agent 陷入 Meltdown（错误叙事循环）</strong></td>
+          <td>高</td>
+          <td>高</td>
+          <td>Phase 0 即部署 meltdown 检测：重复输出检测 + 工具使用频率下降检测 + 自动重启</td>
+        </tr>
+        <tr>
+          <td><strong>子Agent 异常影响主Agent</strong></td>
+          <td>中</td>
+          <td>高</td>
+          <td>子Agent 在独立容器运行；超时自动终止；异常捕获不传播</td>
+        </tr>
+        <tr>
+          <td><strong>LLM API 不稳定/限流</strong></td>
+          <td>中</td>
+          <td>中</td>
+          <td>多模型 fallback（主用 Claude，备选 GPT）；请求重试 + 指数退避</td>
+        </tr>
+        <tr>
+          <td><strong>Guardrail 规则误报</strong></td>
+          <td>中</td>
+          <td>中</td>
+          <td>规则分级（LOW/MEDIUM/HIGH/CRITICAL）；LOW 仅记录不阻断；人工复核机制</td>
+        </tr>
+        <tr>
+          <td><strong>上下文窗口不够用</strong></td>
+          <td>中</td>
+          <td>中</td>
+          <td>分层压缩 + 200k 模型；最坏情况可切换到更大上下文模型</td>
+        </tr>
+        <tr>
+          <td><strong>敏感信息泄露</strong></td>
+          <td>低</td>
+          <td>极高</td>
+          <td>多层脱敏 + Guardrail 检测 + 审计日志 + 对外通信审批</td>
+        </tr>
+        <tr>
+          <td><strong>金融操作失误</strong></td>
+          <td>低</td>
+          <td>极高</td>
+          <td>所有金融操作需人类审批 + 临时卡限额 + 独立账户隔离</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning-box">
+      <div class="label">最高优先级风险</div>
+      <p>
+        Andon Labs 的经验表明：<strong>能力越强的模型，安全风险越高</strong>。
+        高绩效模型可能出现欺骗、权力寻求等行为。因此 Phase 3 的 Guardrail 系统
+        <strong>不能延后到全部功能完成后才做</strong>——规则定义应从 Phase 1 就开始，随业务功能同步迭代。
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 11: 成功指标 -->
+  <div class="section" id="s11">
+    <div class="section-number">11</div>
+    <h2>成功指标与验收标准</h2>
+
+    <h3>11.1 各阶段验收指标</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>阶段</th><th>指标</th><th>目标值</th><th>验证方式</th></tr>
+      </thead>
+      <tbody>
+        <tr class="p0"><td class="p0">P0</td><td>连续运行不崩溃</td><td>≥ 72 小时</td><td>压力测试</td></tr>
+        <tr class="p0"><td class="p0">P0</td><td>崩溃后恢复时间</td><td>≤ 30 秒</td><td>故障注入测试</td></tr>
+        <tr class="p0"><td class="p0">P0</td><td>审计日志覆盖率</td><td>100%</td><td>日志审查</td></tr>
+        <tr class="p1"><td class="p1">P1</td><td>连续运行不崩溃</td><td>≥ 7 天</td><td>长时间运行测试</td></tr>
+        <tr class="p1"><td class="p1">P1</td><td>记忆压缩触发率</td><td>上下文>150k 时 100% 触发</td><td>日志统计</td></tr>
+        <tr class="p1"><td class="p1">P1</td><td>压缩后关键信息保留率</td><td>≥ 95%</td><td>压缩前后对比验证</td></tr>
+        <tr class="p1"><td class="p1">P1</td><td>事件唤醒延迟</td><td>≤ 5 秒</td><td>事件注入测试</td></tr>
+        <tr class="p2"><td class="p2">P2</td><td>并行子Agent 数量</td><td>≥ 5 个同时</td><td>并发测试</td></tr>
+        <tr class="p2"><td class="p2">P2</td><td>子Agent 异常隔离率</td><td>100%（不影响主Agent）</td><td>故障注入测试</td></tr>
+        <tr class="p2"><td class="p2">P2</td><td>Agent 间消息送达率</td><td>≥ 99.9%</td><td>消息追踪</td></tr>
+        <tr class="p3"><td class="p3">P3</td><td>违规检测率</td><td>≥ 95%</td><td>规则覆盖测试</td></tr>
+        <tr class="p3"><td class="p3">P3</td><td>敏感信息泄露</td><td>0 次</td><td>安全审计</td></tr>
+        <tr class="p3"><td class="p3">P3</td><td>人类升级响应时间</td><td>≤ 60 秒通知到人</td><td>告警测试</td></tr>
+      </tbody>
+    </table>
+
+    <h3>11.2 系统级验收标准</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">⏱️</div>
+        <div class="card-title">持续运行</div>
+        <div class="card-desc">系统可 7×24 持续运行，无需人工干预处理常规事务</div>
+        <span class="card-tag p3">系统级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">记忆完整</div>
+        <div class="card-desc">运行 7 天后，Agent 仍能正确回忆关键决策和当前状态</div>
+        <span class="card-tag p1">系统级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <div class="card-title">多Agent协作</div>
+        <div class="card-desc">主Agent 可 fan-out 5+ 子Agent 并行，结果正确汇总</div>
+        <span class="card-tag p2">系统级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">安全可控</div>
+        <div class="card-desc">所有高危操作（付款/合同/对外通信）100% 经审批，0 信息泄露</div>
+        <span class="card-tag p0">系统级</span>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="label">最终验收标准</div>
+      <p>
+        系统在真实业务环境中连续运行 <strong>14 天</strong>，期间：
+        无崩溃、无信息泄露、关键决策不丢失、高危操作 100% 经审批、
+        Meltdown 自动检测恢复、人类介入次数 ≤ 3 次。
+        达标即视为方案落地成功。
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>长周期自治智能体系统 — 技术落地方案 v1.0 · 基于Andon Labs架构升级 · 2026年9月</p>
+  </div>
+
+</div>
+</body>
+</html>
