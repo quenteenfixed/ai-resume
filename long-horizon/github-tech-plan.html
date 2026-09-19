@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub 长周期自治智能体高星项目调研与技术方案</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #0a0e1a;
+    color: #e8ecf4;
+    line-height: 1.75;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+
+  .hero {
+    background: linear-gradient(135deg, #0d111e 0%, #1a1f3a 50%, #0d111e 100%);
+    border: 1px solid #2a3150;
+    border-radius: 20px;
+    padding: 56px 48px;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -40%; right: -15%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(99,102,241,0.2);
+    border: 1px solid rgba(99,102,241,0.4);
+    border-radius: 100px;
+    font-size: 13px;
+    color: #a5b4fc;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #e8ecf4 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+  .hero-subtitle {
+    font-size: 17px;
+    color: #94a3b8;
+    margin-bottom: 30px;
+    max-width: 720px;
+  }
+  .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .meta-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+  .meta-value { font-size: 15px; color: #e8ecf4; font-weight: 600; }
+
+  .section {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 36px;
+    margin-bottom: 24px;
+  }
+  .section-number {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6366f1;
+    background: rgba(99,102,241,0.1);
+    padding: 4px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  .section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 18px;
+    line-height: 1.3;
+  }
+  .section h3 {
+    font-size: 19px;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 26px 0 12px;
+    padding-left: 12px;
+    border-left: 3px solid #6366f1;
+  }
+  .section h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin: 18px 0 8px;
+  }
+  .section p { color: #cbd5e1; margin-bottom: 12px; font-size: 15px; }
+  .section ul, .section ol { color: #cbd5e1; margin: 10px 0 16px 22px; font-size: 15px; }
+  .section li { margin-bottom: 6px; }
+  .section strong { color: #f1f5f9; font-weight: 600; }
+  .section code { font-family: "SF Mono","Monaco","Consolas",monospace; background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #93c5fd; }
+
+  .arch-diagram {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 18px 0;
+    font-family: "SF Mono","Monaco","Consolas",monospace;
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: #94a3b8;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .arch-diagram .l1 { color: #f472b6; font-weight: 600; }
+  .arch-diagram .l2 { color: #a78bfa; font-weight: 600; }
+  .arch-diagram .l3 { color: #60a5fa; font-weight: 600; }
+  .arch-diagram .l4 { color: #34d399; font-weight: 600; }
+  .arch-diagram .l5 { color: #fbbf24; font-weight: 600; }
+  .arch-diagram .cmt { color: #475569; }
+
+  .code-block {
+    background: #020617;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 14px 0;
+    overflow-x: auto;
+    font-family: "SF Mono","Monaco","Consolas",monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #94a3b8;
+  }
+  .code-block .kw { color: #c084fc; }
+  .code-block .fn { color: #60a5fa; }
+  .code-block .str { color: #4ade80; }
+  .code-block .num { color: #fbbf24; }
+  .code-block .cmt { color: #475569; font-style: italic; }
+  .code-block .cls { color: #f472b6; }
+  .code-block .type { color: #5eead4; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  .card:hover { border-color: #6366f1; transform: translateY(-2px); }
+  .card-icon { font-size: 24px; margin-bottom: 10px; }
+  .card-title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+  .card-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .card-tag.red { background: rgba(248,113,113,0.15); color: #f87171; }
+  .card-tag.yellow { background: rgba(251,191,36,0.15); color: #fbbf24; }
+  .card-tag.green { background: rgba(74,222,128,0.15); color: #4ade80; }
+  .card-tag.blue { background: rgba(96,165,250,0.15); color: #60a5fa; }
+  .card-tag.purple { background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  .insight-box {
+    background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.08) 100%);
+    border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+  .insight-box .label { font-size: 11px; font-weight: 700; color: #a5b4fc; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .insight-box p { color: #cbd5e1; margin: 0; font-size: 14px; }
+
+  .warning-box {
+    background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(245,158,11,0.08) 100%);
+    border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+  .warning-box .label { font-size: 11px; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .warning-box p { color: #fde68a; margin: 0; font-size: 14px; }
+
+  table.tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 13.5px;
+  }
+  table.tbl th {
+    background: #1e293b;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #f1f5f9;
+    border-bottom: 2px solid #334155;
+    font-size: 12px;
+  }
+  table.tbl td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #1e293b;
+    color: #cbd5e1;
+    vertical-align: top;
+  }
+  table.tbl tr:hover td { background: rgba(99,102,241,0.04); }
+
+  .toc {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 24px;
+  }
+  .toc-title { font-size: 13px; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .toc-list { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 20px; }
+  .toc-list li { margin-bottom: 6px; break-inside: avoid; }
+  .toc-list a { color: #94a3b8; text-decoration: none; font-size: 13.5px; }
+  .toc-list a:hover { color: #a5b4fc; }
+  .toc-num { color: #6366f1; font-weight: 600; margin-right: 5px; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .stat-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-value { font-size: 24px; font-weight: 700; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 3px; }
+  .stat-label { font-size: 11px; color: #64748b; }
+
+  .phase-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 22px 24px;
+    border-left: 4px solid #6366f1;
+    margin-bottom: 14px;
+  }
+  .phase-card.p0 { border-left-color: #f87171; }
+  .phase-card.p1 { border-left-color: #fbbf24; }
+  .phase-card.p2 { border-left-color: #4ade80; }
+  .phase-card.p3 { border-left-color: #60a5fa; }
+  .phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .phase-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; }
+  .phase-badge.p0 { background: rgba(248,113,113,0.2); color: #f87171; }
+  .phase-badge.p1 { background: rgba(251,191,36,0.2); color: #fbbf24; }
+  .phase-badge.p2 { background: rgba(74,222,128,0.2); color: #4ade80; }
+  .phase-badge.p3 { background: rgba(96,165,250,0.2); color: #60a5fa; }
+  .phase-title { font-size: 17px; font-weight: 600; color: #f1f5f9; }
+  .phase-duration { font-size: 12px; color: #64748b; margin-left: auto; }
+  .phase-body { font-size: 14px; color: #94a3b8; line-height: 1.7; }
+  .phase-body strong { color: #e2e8f0; }
+
+  .footer { text-align: center; padding: 36px 0; color: #475569; font-size: 12px; }
+
+  @media (max-width: 768px) {
+    .hero { padding: 32px 22px; }
+    .hero h1 { font-size: 24px; }
+    .section { padding: 22px; }
+    .section h2 { font-size: 20px; }
+    .toc-list { columns: 1; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-tag">🔍 GitHub 高星项目调研 + 技术方案设计</div>
+    <h1>长周期自治智能体<br>GitHub 开源生态调研与技术方案</h1>
+    <p class="hero-subtitle">
+      深度调研 GitHub 上 10+ 高星长周期自治智能体项目（OpenClaw 373K★、Hermes Agent 95.6K★、
+      LangGraph 44K★、CrewAI 53K★、Letta 23K★、Paperclip 37K★ 等），
+      结合 Andon Labs 架构分析，为团队设计融合各项目精华的技术方案。
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">调研项目</span><span class="meta-value">10+ 个</span></div>
+      <div class="meta-item"><span class="meta-label">总 Star 数</span><span class="meta-value">860K+</span></div>
+      <div class="meta-label">方案周期</span><span class="meta-value">14 周（4阶段）</span></div>
+      <div class="meta-item"><span class="meta-label">技术栈</span><span class="meta-value">Python + LangGraph</span></div>
+      <div class="meta-item"><span class="meta-label">参考来源</span><span class="meta-value">Andon Labs + GitHub</span></div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">目录</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span>调研总览与项目全景</a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>核心项目深度分析</a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>关键技术维度对比</a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>各项目核心技术解构</a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>团队能吸纳的 10 大技术方案</a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>融合技术方案设计</a></li>
+      <li><a href="#s7"><span class="toc-num">07</span>四阶段实施路线</a></li>
+      <li><a href="#s8"><span class="toc-num">08</span>核心模块代码设计</a></li>
+      <li><a href="#s9"><span class="toc-num">09</span>技术选型与对比</a></li>
+      <li><a href="#s10"><span class="toc-num">10</span>风险评估与验收标准</a></li>
+    </ul>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section" id="s1">
+    <div class="section-number">01</div>
+    <h2>调研总览与项目全景</h2>
+    <p>
+      2026 年是长周期自治智能体框架爆发的一年。从 Andon Labs 的 Pion 平台到 GitHub 上的开源生态，
+      多个项目在<strong>持久化记忆、心跳调度、自我改进、多Agent治理</strong>等方向做出了创新。
+      以下是我们调研的 10 个核心项目：
+    </p>
+
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>项目</th>
+          <th>Stars</th>
+          <th>语言</th>
+          <th>核心范式</th>
+          <th>最适合的场景</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OpenClaw</strong></td>
+          <td>373K</td>
+          <td>TypeScript</td>
+          <td>心跳循环 + 文件式记忆</td>
+          <td>个人持久助手、多平台消息</td>
+        </tr>
+        <tr>
+          <td><strong>Hermes Agent</strong></td>
+          <td>95.6K</td>
+          <td>Python</td>
+          <td>自我改进 + 三层记忆</td>
+          <td>长期研究助手、技能复用</td>
+        </tr>
+        <tr>
+          <td><strong>LangGraph</strong></td>
+          <td>44K</td>
+          <td>Python/JS</td>
+          <td>图状态机 + 检查点</td>
+          <td>生产级 Agent 编排</td>
+        </tr>
+        <tr>
+          <td><strong>CrewAI</strong></td>
+          <td>53K</td>
+          <td>Python</td>
+          <td>角色分工 + 认知记忆</td>
+          <td>多Agent团队协作</td>
+        </tr>
+        <tr>
+          <td><strong>AutoGen</strong></td>
+          <td>59K</td>
+          <td>Python</td>
+          <td>对话式多Agent</td>
+          <td>Agent间对话协作</td>
+        </tr>
+        <tr>
+          <td><strong>Letta (MemGPT)</strong></td>
+          <td>23K</td>
+          <td>Python</td>
+          <td>内存原生 + 梦想Agent</td>
+          <td>有状态长期记忆Agent</td>
+        </tr>
+        <tr>
+          <td><strong>Paperclip</strong></td>
+          <td>37K</td>
+          <td>Python</td>
+          <td>治理层 + 审批 + 组织架构</td>
+          <td>自治企业管理</td>
+        </tr>
+        <tr>
+          <td><strong>Dify</strong></td>
+          <td>144K</td>
+          <td>Python</td>
+          <td>低代码可视化</td>
+          <td>快速构建Agent应用</td>
+        </tr>
+        <tr>
+          <td><strong>MemPalace</strong></td>
+          <td>55K</td>
+          <td>Python</td>
+          <td>向量语义记忆</td>
+          <td>跨会话持久记忆</td>
+        </tr>
+        <tr>
+          <td><strong>BabyAGI 3</strong></td>
+          <td>33K</td>
+          <td>Python</td>
+          <td>任务队列 + 自主循环</td>
+          <td>持久自治助手</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box">
+      <div class="label">调研核心发现</div>
+      <p>
+        2026 年的长周期自治智能体生态呈现出<strong>四大趋势</strong>：
+        ① 心跳调度成为标配（OpenClaw 的 HEARTBEAT.md 模式被广泛借鉴）；
+        ② 记忆从"存储"进化为"认知"（Hermes 的学习闭环、Letta 的梦想Agent、CrewAI 的认知记忆）；
+        ③ 治理与安全成为独立层（Paperclip 的审批/组织架构、Andon Labs 的 Andonos 监督Agent）；
+        ④ 自我改进成为新范式（Hermes 的技能自动创建、Letta 的睡眠期计算）。
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section" id="s2">
+    <div class="section-number">02</div>
+    <h2>核心项目深度分析</h2>
+
+    <h3>2.1 OpenClaw（373K★）— 心跳循环 + 文件式记忆</h3>
+    <p>
+      OpenClaw 是 2026 年 GitHub 增长最快的项目，其核心创新是<strong>将 Agent 从"请求-响应"模式转变为"持久循环"模式</strong>。
+      Agent 不是一个被动等待指令的聊天机器人，而是一个通过心跳定时唤醒、主动检查任务、自行决策的持久进程。
+    </p>
+
+    <div class="arch-diagram"><span class="l1">┌─ Gateway（网关进程）──────────────────────────────┐</span>
+│  WhatsApp · Telegram · Slack · Discord · iMessage    │
+│  ↓ 接收消息 → 标准化 → 路由到 Agent Loop              │
+│  ↑ 发送响应 → 过滤 HEARTBEAT_OK → 投递到平台           │
+<span class="l1">└──────────────────────────────────────────────────────┘</span>
+                         ↓
+<span class="l2">┌─ Agentic Loop（代理循环）─────────────────────────┐</span>
+│  1. 加载 SOUL.md（身份 + 价值观）                      │
+│  2. 加载 HEARTBEAT.md（定时任务清单）                   │
+│  3. 从 SQLite 检索相关记忆（语义搜索）                  │
+│  4. 调用 LLM（带完整上下文）                            │
+│  5. 执行工具/技能                                       │
+│  6. 结果写回 SQLite                                     │
+│  7. 超出上下文窗口时自动压缩                             │
+<span class="l2">└──────────────────────────────────────────────────────┘</span>
+                         ↓
+<span class="l3">┌─ 存储 ────────────────────────────────────────────┐</span>
+│  SQLite（唯一数据库）                                   │
+│  ├── 对话历史（时间戳消息）                              │
+│  ├── 语义嵌入（向量搜索 + sqlite-vec）                  │
+│  ├── 压缩摘要（旧消息自动压缩）                          │
+│  └── 配置文件（Markdown 格式）                          │
+│                                                         │
+│  SOUL.md · HEARTBEAT.md · AGENTS.md · IDENTITY.md     │
+<span class="l3">└──────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <h4>核心技术要点</h4>
+    <ul>
+      <li><strong>Heartbeat 心跳调度</strong>：默认每 30 分钟唤醒一次，读取 HEARTBEAT.md 检查是否有事可做。无事可做时返回 <code>HEARTBEAT_OK</code>，Gateway 静默丢弃</li>
+      <li><strong>SOUL.md 身份系统</strong>：定义 Agent 的人格、价值观、沟通风格、常驻指令——每次循环开始时加载到上下文顶部</li>
+      <li><strong>文件式记忆</strong>：所有配置和记忆都是人可读的 Markdown 文件，可 <code>git</code> 版本控制，可 <code>grep</code> 搜索</li>
+      <li><strong>上下文压缩</strong>：旧消息自动摘要压缩，最近 N 条保留原文。原始数据保留在独立表中供审计</li>
+      <li><strong>混合搜索</strong>：语义嵌入 + 关键词搜索，兼顾"意思相近"和"精确匹配"</li>
+      <li><strong>HEARTBEAT_OK 过滤</strong>：心跳无事可做时不打扰用户，是优秀的 UX 设计</li>
+    </ul>
+
+    <div class="warning-box">
+      <div class="label">安全风险</div>
+      <p>
+        OpenClaw 2026 年 3 月在 4 天内披露了 9 个 CVE（含 CVSS 9.9），源于 13K+ 社区技能缺乏审核。
+        这是"生态开放度"与"安全性"的典型矛盾——技能越多，攻击面越大。
+      </p>
+    </div>
+
+    <h3>2.2 Hermes Agent（95.6K★）— 自我改进 + 三层记忆</h3>
+    <p>
+      Hermes Agent 由 Nous Research 开发，核心创新是<strong>学习闭环</strong>：
+      Agent 在完成任务后自动总结经验，生成可复用的"技能"文件，下次遇到类似任务直接加载使用。
+      这使得 Agent 的能力随使用时间<strong>指数增长</strong>。
+    </p>
+
+    <div class="arch-diagram"><span class="l1">Hermes 学习闭环（5 步）</span>
+│
+├── 1. <span class="l2">接收任务</span> — 用户或定时触发
+├── 2. <span class="l2">检索上下文</span> — FTS5 全文搜索（~10ms / 10K+ 文档）
+│          查找相关的过去技能和记忆
+├── 3. <span class="l2">推理并执行</span> — LLM 规划任务、调用工具、执行
+├── 4. <span class="l2">记录结果</span> — 如果任务涉及 5+ 工具调用
+│          → 自动生成技能文件（agentskills.io 标准）
+└── 5. <span class="l2">持久化</span> — 技能索引到记忆，未来会话可用
+
+<span class="cmt"># 三层记忆架构：</span>
+<span class="l3">Layer 1 — Session Memory</span>    当前会话上下文（标准 LLM 管理）
+<span class="l3">Layer 2 — Persistent Memory</span>  SQLite + FTS5（任务结果、技能文件、用户笔记）
+<span class="l3">Layer 3 — User Model</span>        自动构建用户偏好画像（编码风格、时区、协作者）
+
+<span class="cmt"># 性能数据：</span>
+<span class="cmt"># 20+ 自创建技能后，同类任务完成速度提升 40%</span>
+<span class="cmt"># 复杂任务平均成本 ~$0.30（预算模型）</span>
+    </div>
+
+    <h4>核心技术要点</h4>
+    <ul>
+      <li><strong>技能自动生成</strong>：任务涉及 5+ 工具调用时自动创建技能文件，遵循 agentskills.io 开放标准</li>
+      <li><strong>技能自我改进</strong>：Agent 使用技能时评估效果，发现更优解自动更新技能文件——形成"创建→使用→评估→优化"闭环</li>
+      <li><strong>FTS5 全文搜索</strong>：SQLite 原生 FTS5，10ms 延迟检索 10K+ 文档，无需额外向量数据库</li>
+      <li><strong>用户模型层</strong>：自动学习用户偏好（编码风格、时区、工具偏好），100+ 次交互后输出个性化</li>
+      <li><strong>118 个精选技能</strong>：安全审核的精选技能库，而非 13K+ 不审核的社区技能</li>
+      <li><strong>多模型路由</strong>：支持 OpenAI、Anthropic、Nous Portal、OpenRouter 等，可按任务复杂度路由到不同模型</li>
+    </ul>
+
+    <div class="insight-box">
+      <div class="label">核心启示</div>
+      <p>
+        Hermes 的学习闭环解决了 Agent 领域最大的痛点：<strong>Agent 不在会话间学习</strong>。
+        传统 Agent 每次从零开始，Hermes 通过技能文件将经验沉淀为可复用资产。
+        20+ 技能后 40% 的速度提升是实打实的工程价值。
+      </p>
+    </div>
+
+    <h3>2.3 LangGraph（44K★）— 图状态机 + 检查点</h3>
+    <p>
+      LangGraph 是 LangChain 团队的图基 Agent 框架，核心是将 Agent 行为建模为<strong>状态机图</strong>，
+      每个节点是一个处理步骤，每条边是状态转换。其最大的工程价值是<strong>检查点系统</strong>：
+      每步自动保存完整状态快照，崩溃后可从任意节点恢复。
+    </p>
+
+    <h4>核心技术要点</h4>
+    <ul>
+      <li><strong>图状态机</strong>：Agent 行为建模为有向图，节点=处理步骤，边=条件转换。比纯 prompt 更可控、可调试</li>
+      <li><strong>Checkpointer</strong>：每步自动保存状态快照。支持同步/异步两种模式，平衡性能和持久性</li>
+      <li><strong>Delta Channels</strong>：新引入的增量存储——只存每步的 delta，定期全量快照。解决 O(N²) 存储增长问题</li>
+      <li><strong>短期+长期记忆</strong>：短期记忆 = Agent 状态的一部分（多轮对话）；长期记忆 = 跨会话的 Store（用户级/应用级）</li>
+      <li><strong>PostgreSQL 后端</strong>：生产级存储后端，支持 <code>PostgresSaver</code> 和 <code>PostgresStore</code></li>
+      <li><strong>人机协作</strong>：内置 <code>interrupt</code> 机制，可在任意节点暂停等待人类审批后继续</li>
+    </ul>
+
+    <h3>2.4 CrewAI（53K★）— 角色分工 + 认知记忆</h3>
+    <p>
+      CrewAI 将多 Agent 协作建模为<strong>企业团队</strong>：每个 Agent 有角色（role）、目标（goal）、背景（backstory），
+      通过 <strong>Cognitive Memory</strong> 实现智能记忆管理。
+    </p>
+
+    <h4>核心技术要点</h4>
+    <ul>
+      <li><strong>角色化 Agent</strong>：每个 Agent 有明确的角色、目标、背景故事，通过 prompt 注入人格</li>
+      <li><strong>Cognitive Memory</strong>：不是简单的向量存储，而是认知层——智能记忆、矛盾解决、主动遗忘、知道何时缺乏上下文</li>
+      <li><strong>层级化流程</strong>：支持层级式（hierarchical）流程，自动生成 Manager Agent 协调工作流、委派任务、验证结果</li>
+      <li><strong>私有 vs 共享记忆</strong>：Agent 可使用 Crew 共享记忆（默认），也可获得私有记忆范围</li>
+      <li><strong>A2A 协议</strong>：支持 Agent-to-Agent 通信协议和 MCP 工具协议</li>
+      <li><strong>Flows 状态管理</strong>：CrewAI Flows 提供事件驱动的状态管理，可构建复杂工作流</li>
+    </ul>
+
+    <h3>2.5 Letta / MemGPT（23K★）— 内存原生 + 梦想Agent</h3>
+    <p>
+      Letta（原 MemGPT）的核心思想是<strong>将 LLM 的上下文当作操作系统的内存来管理</strong>：
+     信息在"核心内存"和"归档内存"之间分页（page in/out），使 Agent 能持有远超上下文窗口的信息。
+    </p>
+
+    <h4>核心技术要点</h4>
+    <ul>
+      <li><strong>核心内存（Core Memory）</strong>：Agent 每轮都能看到的部分（人设块 + 角色块），修改即时持久化</li>
+      <li><strong>归档内存（Archival Memory）</strong>：外部向量存储（pgvector / SQLite / Pinecone），Agent 通过工具调用搜索</li>
+      <li><strong>梦想Agent（Dream Agents）</strong>：后台记忆Agent，在 Agent 空闲时变换 prompt、上下文和技能——"睡眠期计算"</li>
+      <li><strong>上下文仓库（Context Repositories）</strong>：Git 版本控制的 Agent 记忆，可编程管理上下文</li>
+      <li><strong>有状态服务</strong>：Agent 作为长生命周期服务运行，跨会话积累记忆，而非每次重新开始</li>
+    </ul>
+
+    <div class="insight-box">
+      <div class="label">与 Andon Labs 的呼应</div>
+      <p>
+        Letta 的"核心内存"概念与 Andon Market 的"长期记忆注入上下文顶部"异曲同工。
+        Andon Labs 发现 Agent 经常忘记去检索记忆 → Letta 的方案是让关键信息始终在上下文中可见。
+        两者从不同路径得出了相同的结论：<strong>全量注入 > 主动检索</strong>。
+      </p>
+    </div>
+
+    <h3>2.6 Paperclip（37K★）— 治理层 + 审批 + 组织架构</h3>
+    <p>
+      Paperclip 是最接近 Andon Labs Pion 理念的开源项目。它不是 Agent 执行框架，
+      而是<strong>Agent 治理和管理层</strong>：将 AI Agent 组织成企业层级结构，
+      有汇报线、角色定义、预算管理、审批门和不可变审计。
+    </p>
+
+    <h4>核心技术要点</h4>
+    <ul>
+      <li><strong>组织架构</strong>：Agent 有 boss、title、job description，形成层级结构</li>
+      <li><strong>审批门（Approval Gates）</strong>：预算提升、高风险技能调用、招聘等操作排队等待人类审批</li>
+      <li><strong>Token 预算</strong>：每个角色有月度 Token 预算，自动执行限制</li>
+      <li><strong>目标感知执行</strong>：任务携带完整的目标祖先链，让 Agent 始终看到"为什么"，而不只是"做什么"</li>
+      <li><strong>配置版本化</strong>：配置变更被版本化，坏变更可一键回滚</li>
+      <li><strong>不可变审计</strong>：每个对话、每个决策、每个工具调用全程追踪</li>
+      <li><strong>Bring Your Own Agent</strong>：支持任何能接收心跳的 Agent（Claude、Cursor、Codex 等）</li>
+      <li><strong>自托管</strong>：完全自主部署，数据不离开你的基础设施</li>
+    </ul>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section" id="s3">
+    <div class="section-number">03</div>
+    <h2>关键技术维度对比</h2>
+
+    <h3>3.1 记忆系统对比</h3>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>项目</th>
+          <th>记忆架构</th>
+          <th>存储后端</th>
+          <th>检索方式</th>
+          <th>压缩/遗忘</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OpenClaw</strong></td>
+          <td>文件式（Markdown）+ SQLite</td>
+          <td>SQLite + sqlite-vec</td>
+          <td>语义嵌入 + 关键词混合</td>
+          <td>旧消息自动摘要压缩</td>
+        </tr>
+        <tr>
+          <td><strong>Hermes</strong></td>
+          <td>三层：会话/持久/用户模型</td>
+          <td>SQLite + FTS5</td>
+          <td>FTS5 全文搜索（~10ms）</td>
+          <td>技能自动生成+改进</td>
+        </tr>
+        <tr>
+          <td><strong>LangGraph</strong></td>
+          <td>短期（状态）+ 长期（Store）</td>
+          <td>PostgreSQL</td>
+          <td>键值 + 语义</td>
+          <td>Delta Channels 增量存储</td>
+        </tr>
+        <tr>
+          <td><strong>CrewAI</strong></td>
+          <td>Cognitive Memory（认知层）</td>
+          <td>可插拔存储</td>
+          <td>智能召回 + 主动遗忘</td>
+          <td>矛盾解决 + 故意遗忘</td>
+        </tr>
+        <tr>
+          <td><strong>Letta</strong></td>
+          <td>核心内存 + 归档内存</td>
+          <td>pgvector / SQLite</td>
+          <td>核心全量 + 归档语义搜索</td>
+          <td>梦想Agent 睡眠期变换</td>
+        </tr>
+        <tr>
+          <td><strong>Andon Market</strong></td>
+          <td>Long-term + Short-term + Latest</td>
+          <td>（内部系统）</td>
+          <td>全量注入上下文顶部</td>
+          <td>超阈值时LLM压缩</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3.2 调度与运行模式对比</h3>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>项目</th>
+          <th>运行模式</th>
+          <th>调度机制</th>
+          <th>持久性</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OpenClaw</strong></td>
+          <td>心跳循环（30min默认）</td>
+          <td>HEARTBEAT.md 定时检查</td>
+          <td>Gateway 守护进程</td>
+        </tr>
+        <tr>
+          <td><strong>Hermes</strong></td>
+          <td>事件驱动 + 定时触发</td>
+          <td>用户消息 / 定时任务</td>
+          <td>Daemon 模式</td>
+        </tr>
+        <tr>
+          <td><strong>LangGraph</strong></td>
+          <td>图遍历（每步=一个super-step）</td>
+          <td>边条件触发</td>
+          <td>Checkpoint 持久化</td>
+        </tr>
+        <tr>
+          <td><strong>Paperclip</strong></td>
+          <td>组织层级调度</td>
+          <td>定时心跳（heartbeat）</td>
+          <td>自托管服务</td>
+        </tr>
+        <tr>
+          <td><strong>Andon Pion</strong></td>
+          <td>持久化业务Agent</td>
+          <td>wait time + 事件唤醒</td>
+          <td>云端容器</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3.3 治理与安全对比</h3>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>项目</th>
+          <th>治理机制</th>
+          <th>安全机制</th>
+          <th>人类介入</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Paperclip</strong></td>
+          <td>组织架构 + 审批门 + 预算</td>
+          <td>不可变审计 + 配置版本化 + 回滚</td>
+          <td>手机审批 / 覆盖决策</td>
+        </tr>
+        <tr>
+          <td><strong>Andon Pion</strong></td>
+          <td>Andonos 监督Agent</td>
+          <td>Guardrail 行为监控 + 权限隔离</td>
+          <td>Slack 警告 → 人类升级</td>
+        </tr>
+        <tr>
+          <td><strong>LangGraph</strong></td>
+          <td>interrupt 人机协作</td>
+          <td>节点级暂停/恢复</td>
+          <td>任意节点暂停等审批</td>
+        </tr>
+        <tr>
+          <td><strong>Hermes</strong></td>
+          <td>精选技能（安全审核）</td>
+          <td>零 CVE 记录</td>
+          <td>无显式治理层</td>
+        </tr>
+        <tr>
+          <td><strong>OpenClaw</strong></td>
+          <td>无显式治理</td>
+          <td>技能权限审查（9个CVE）</td>
+          <td>无</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section" id="s4">
+    <div class="section-number">04</div>
+    <h2>各项目核心技术解构</h2>
+
+    <h3>4.1 OpenClaw：Heartbeat + SOUL.md 模式</h3>
+    <p>OpenClaw 最值得借鉴的是其<strong>文件式 Agent 身份系统</strong>和<strong>心跳调度</strong>：</p>
+    <div class="code-block">
+<span class="cmt"># SOUL.md — Agent 的"灵魂"文件</span>
+<span class="cmt"># 每次循环开始时加载到上下文顶部，确保身份一致性</span>
+
+## Identity
+Your name is Agent-Q. You are an autonomous business assistant.
+You are direct, data-driven, and never verbose.
+
+## Values
+- Budget first: never exceed approved limits without human sign-off
+- Evidence-based: every decision must cite data source
+- Fail safe: when uncertain, pause and ask rather than guess
+
+## Standing Instructions
+- Never send payments without explicit approval
+- Flag any anomaly >$500 immediately
+- Summarize daily operations at 6pm
+    </div>
+
+    <div class="code-block">
+<span class="cmt"># HEARTBEAT.md — 定时任务清单</span>
+<span class="cmt"># Agent 每 30 分钟读取一次，决定是否有事可做</span>
+
+- Check email inbox. Flag anything marked urgent.
+- If it's after 5pm, summarize today's activity.
+- If inventory below threshold, create restock order.
+- Every morning at 8am, send daily operations report.
+- If CI build status changed, notify on Slack.
+
+<span class="cmt"># 无事可做时返回 HEARTBEAT_OK，Gateway 静默丢弃</span>
+    </div>
+
+    <h3>4.2 Hermes：学习闭环与技能生成</h3>
+    <p>Hermes 最值得借鉴的是其<strong>自动技能生成</strong>和<strong>三层记忆</strong>：</p>
+    <div class="code-block">
+<span class="cmt"># Hermes 学习闭环伪代码</span>
+<span class="kw">async def</span> <span class="fn">task_loop</span>(task):
+    <span class="cmt"># 1. 接收任务</span>
+    <span class="kw">pass</span>
+
+    <span class="cmt"># 2. 检索上下文：FTS5 全文搜索过去技能</span>
+    relevant_skills = <span class="kw">await</span> fts5.<span class="fn">search</span>(task.description, limit=<span class="num">10</span>)
+    user_profile = <span class="kw">await</span> memory.<span class="fn">get_user_model</span>()
+
+    <span class="cmt"># 3. 推理并执行</span>
+    result = <span class="kw">await</span> llm.<span class="fn">plan_and_execute</span>(
+        task, context=relevant_skills, user_model=user_profile
+    )
+
+    <span class="cmt"># 4. 记录结果：如果涉及 5+ 工具调用，自动生成技能</span>
+    <span class="kw">if</span> result.tool_call_count >= <span class="num">5</span>:
+        skill = <span class="kw">await</span> llm.<span class="fn">generate_skill</span>(task, result)
+        <span class="kw">await</span> skills.<span class="fn">save</span>(skill)  <span class="cmt"># agentskills.io 标准</span>
+
+    <span class="cmt"># 5. 持久化</span>
+    <span class="kw">await</span> memory.<span class="fn">persist</span>(task, result, skill)
+    </div>
+
+    <h3>4.3 LangGraph：检查点与 Delta Channels</h3>
+    <p>LangGraph 最值得借鉴的是<strong>图状态机检查点</strong>和<strong>Delta 增量存储</strong>：</p>
+    <div class="code-block">
+<span class="cmt"># LangGraph 检查点系统</span>
+<span class="kw">from</span> langgraph.checkpoint.postgres <span class="kw">import</span> PostgresSaver
+<span class="kw">from</span> langgraph.store.postgres <span class="kw">import</span> PostgresStore
+
+<span class="cmt"># 每步自动保存完整状态快照</span>
+checkpointer = PostgresSaver.<span class="fn">from_conn_string</span>(DB_URI)
+store = PostgresStore.<span class="fn">from_conn_string</span>(DB_URI)
+
+graph = builder.<span class="fn">compile</span>(
+    checkpointer=checkpointer,  <span class="cmt"># 短期记忆：每步快照</span>
+    store=store,                 <span class="cmt"># 长期记忆：跨会话</span>
+)
+
+<span class="cmt"># Delta Channels：只存增量，定期全量快照</span>
+<span class="cmt"># 解决 O(N²) 存储增长问题</span>
+<span class="cmt"># existing threads 继续工作，透明升级</span>
+    </div>
+
+    <h3>4.4 Paperclip：治理层与审批门</h3>
+    <p>Paperclip 最值得借鉴的是<strong>组织架构</strong>和<strong>审批门</strong>设计：</p>
+    <div class="code-block">
+<span class="cmt"># Paperclip 治理模型伪代码</span>
+<span class="kw">class</span> <span class="cls">Organization</span>:
+    <span class="cmt"># 组织架构：层级 + 汇报线</span>
+    agents: list[Agent]  <span class="cmt"># 每个 agent 有 boss, title, job_description</span>
+
+    <span class="cmt"># 审批门：高风险操作排队等待人类审批</span>
+    <span class="kw">async def</span> <span class="fn">request_approval</span>(self, action: Action):
+        <span class="kw">if</span> action.risk_level == <span class="str">"high"</span>:
+            <span class="cmt"># 排入审批队列，手机推送</span>
+            <span class="kw">await</span> self.approval_queue.<span class="fn">enqueue</span>(action)
+            <span class="kw">return</span> <span class="kw">await</span> self.<span class="fn">wait_for_human</span>(action)
+
+    <span class="cmt"># Token 预算：每角色月度限制</span>
+    budgets: dict[str, TokenBudget]  <span class="cmt"># role -> monthly_limit</span>
+
+    <span class="cmt"># 目标祖先链：任务始终看到"为什么"</span>
+    <span class="kw">def</span> <span class="fn">create_task</span>(self, title, goal_ancestry: list[<span class="type">str</span>]):
+        <span class="cmt"># goal_ancestry: [公司目标 → 部门目标 → 个人目标 → 本任务]</span>
+        <span class="kw">return</span> Task(title=title, ancestry=goal_ancestry)
+
+    <span class="cmt"># 配置版本化 + 一键回滚</span>
+    <span class="kw">async def</span> <span class="fn">rollback_config</span>(self, version: <span class="type">str</span>):
+        <span class="kw">pass</span>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section" id="s5">
+    <div class="section-number">05</div>
+    <h2>团队能吸纳的 10 大技术方案</h2>
+    <p>基于 10 个项目的深度分析，结合团队需求，提炼出最值得吸纳的 10 大技术方案：</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">💓</div>
+        <div class="card-title">1. 心跳调度系统</div>
+        <div class="card-desc">
+          来源：OpenClaw。Agent 每 N 分钟唤醒，读取任务清单，决定是否有事可做。
+          无事返回 HEARTBEAT_OK 静默丢弃。变被动等待为主动巡检。
+        </div>
+        <span class="card-tag red">高优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">2. 分层压缩记忆</div>
+        <div class="card-desc">
+          来源：Andon Market + Letta。Long-term（不变信息）+ Short-term（当前状态）+ Latest（最近消息）。
+          超阈值自动压缩。比主动检索更可靠。
+        </div>
+        <span class="card-tag red">高优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <div class="card-title">3. 学习闭环</div>
+        <div class="card-desc">
+          来源：Hermes Agent。完成复杂任务（5+工具调用）后自动生成技能文件。
+          下次类似任务直接加载，40%速度提升。技能可自我改进。
+        </div>
+        <span class="card-tag red">高优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏛️</div>
+        <div class="card-title">4. 治理与审批门</div>
+        <div class="card-desc">
+          来源：Paperclip + Andon Andonos。组织架构 + 审批门 + Token预算 + 目标祖先链。
+          高风险操作排队等审批，配置可回滚。
+        </div>
+        <span class="card-tag yellow">中优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">5. 检查点与增量存储</div>
+        <div class="card-desc">
+          来源：LangGraph。每步自动保存状态快照，崩溃可从任意节点恢复。
+          Delta Channels 只存增量，解决 O(N²) 存储增长。
+        </div>
+        <span class="card-tag yellow">中优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">6. 文件式身份系统</div>
+        <div class="card-desc">
+          来源：OpenClaw。SOUL.md 定义人格/价值观，HEARTBEAT.md 定义定时任务。
+          人可读、可 git 版本控制、可 grep 搜索。
+        </div>
+        <span class="card-tag yellow">中优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎭</div>
+        <div class="card-title">7. 角色化多Agent</div>
+        <div class="card-desc">
+          来源：CrewAI + Andon Market。每个 Agent 有角色/目标/背景。
+          层级化 Manager Agent 自动协调委派。私有 vs 共享记忆范围。
+        </div>
+        <span class="card-tag yellow">中优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">💤</div>
+        <div class="card-title">8. 睡眠期计算</div>
+        <div class="card-desc">
+          来源：Letta Dream Agents。Agent 空闲时后台运行"梦想Agent"，
+          变换/压缩/优化记忆和技能。利用空闲算力提升质量。
+        </div>
+        <span class="card-tag green">低优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">9. FTS5 全文搜索</div>
+        <div class="card-desc">
+          来源：Hermes。SQLite 原生 FTS5，10ms 检索 10K+ 文档。
+          无需额外向量数据库，极简部署。适合中小规模 Agent。
+        </div>
+        <span class="card-tag green">低优先级</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">10. 不可变审计 + 回滚</div>
+        <div class="card-desc">
+          来源：Paperclip。每个对话/决策/工具调用全程追踪。
+          配置变更版本化，坏变更一键回滚。安全合规必备。
+        </div>
+        <span class="card-tag blue">安全必备</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section" id="s6">
+    <div class="section-number">06</div>
+    <h2>融合技术方案设计</h2>
+    <p>
+      结合 Andon Labs 架构 + 10 个 GitHub 高星项目的精华，设计团队的<strong>融合技术方案</strong>。
+      核心原则：<strong>用 LangGraph 做编排骨架，吸纳各项目最佳实践，不依赖单一框架</strong>。
+    </p>
+
+    <h3>6.1 整体架构</h3>
+    <div class="arch-diagram"><span class="l1">┌─ L0 治理层（← Paperclip + Andonos）─────────────────┐</span>
+│  人类 Board                                              │
+│    ↓ 手机审批 / 覆盖决策 / 暂停终止                       │
+│  Supervisor Agent（Andonos 式）                           │
+│    ↓ 行为监控 · 中立更新 · 违规警告 · 人类升级             │
+│  审批门：高风险操作排队 · Token预算 · 配置版本化 · 回滚    │
+<span class="l1">└──────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l2">┌─ L1 决策层（← CrewAI 角色 + OpenClaw SOUL.md）──────┐</span>
+│  CEO Agent                                               │
+│  ├── SOUL.md：身份/价值观/常驻指令（← OpenClaw）          │
+│  ├── HEARTBEAT.md：定时任务清单（← OpenClaw）             │
+│  ├── 目标祖先链（← Paperclip）                            │
+│  └── 分层压缩记忆（← Andon + Letta）                     │
+<span class="l2">└──────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l3">┌─ L2 执行层（← CrewAI 团队 + Andon Market）──────────┐</span>
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐    │
+│  │ Procure  │ │ Finance  │ │ Market   │ │ Operate  │    │
+│  │ Agent    │ │ Agent    │ │ Agent    │ │ Agent    │    │
+│  │ role+goal│ │ role+goal│ │ role+goal│ │ role+goal│    │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘    │
+│  ┌─────────────────────────────────────────────────┐     │
+│  │ Fan-out: 临时 Browser Agent × N（← Andon）       │     │
+│  └─────────────────────────────────────────────────┘     │
+│  ┌─────────────────────────────────────────────────┐     │
+│  │ 学习闭环：5+工具调用 → 自动生成技能（← Hermes）  │     │
+│  └─────────────────────────────────────────────────┘     │
+<span class="l3">└──────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l4">┌─ L3 编排层（← LangGraph 图状态机）──────────────────┐</span>
+│  图节点 = 处理步骤 · 边 = 条件转换                         │
+│  Checkpointer：每步自动快照（← LangGraph）                │
+│  Delta Channels：增量存储（← LangGraph）                  │
+│  interrupt：节点级暂停等审批（← LangGraph）               │
+<span class="l4">└──────────────────────────────────────────────────────────┘</span>
+                           ↓
+<span class="l5">┌─ L4 存储与工具层 ───────────────────────────────────┐</span>
+│  记忆：SQLite + FTS5（← Hermes）+ PostgreSQL（← LangGraph）│
+│  审计：不可变日志 + 配置版本化（← Paperclip）             │
+│  工具：业务导向（← Andon）· Bash · Browser · Email        │
+│  睡眠期：Dream Agent 后台优化（← Letta）                  │
+<span class="l5">└──────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <div class="insight-box">
+      <div class="label">设计哲学</div>
+      <p>
+        <strong>不选单一框架，而是融合各家之长</strong>：
+        LangGraph 提供图编排骨架（最成熟的生产级框架），OpenClaw 提供心跳/身份模式（最简洁的持久Agent设计），
+        Hermes 提供学习闭环（最创新的自我改进），Paperclip 提供治理层（最完整的Agent管理），
+        Andon Labs 提供真实业务验证（最权威的实践经验）。
+      </p>
+    </div>
+
+    <h3>6.2 各项目贡献的技术清单</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>来源项目</th><th>贡献的技术</th><th>在我们的架构中的角色</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>LangGraph</strong></td><td>图状态机 · 检查点 · Delta Channels · interrupt</td><td>编排骨架</td></tr>
+        <tr><td><strong>OpenClaw</strong></td><td>SOUL.md · HEARTBEAT.md · HEARTBEAT_OK · 上下文压缩</td><td>身份与调度</td></tr>
+        <tr><td><strong>Hermes</strong></td><td>学习闭环 · 技能自动生成 · FTS5 · 三层记忆 · 用户模型</td><td>自我改进</td></tr>
+        <tr><td><strong>Paperclip</strong></td><td>组织架构 · 审批门 · Token预算 · 目标祖先链 · 配置回滚</td><td>治理层</td></tr>
+        <tr><td><strong>CrewAI</strong></td><td>角色化Agent · Cognitive Memory · 层级Manager · A2A</td><td>多Agent协作</td></tr>
+        <tr><td><strong>Letta</strong></td><td>核心内存/归档内存 · Dream Agent · Context Repositories</td><td>记忆架构</td></tr>
+        <tr><td><strong>Andon Labs</strong></td><td>Andonos监督 · Guardrail · Fan-out子Agent · wait time</td><td>真实业务验证</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section" id="s7">
+    <div class="section-number">07</div>
+    <h2>四阶段实施路线</h2>
+
+    <div class="phase-card p0">
+      <div class="phase-header">
+        <span class="phase-badge p0">Phase 0</span>
+        <span class="phase-title">骨架搭建（LangGraph + 基础设施）</span>
+        <span class="phase-duration">第 1-3 周</span>
+      </div>
+      <div class="phase-body">
+        <strong>目标</strong>：基于 LangGraph 搭建 Agent 编排骨架 + 容器运行时 + PostgreSQL 检查点。<br>
+        <strong>交付物</strong>：图状态机骨架 · PostgresSaver 检查点 · 容器运行时 · 基础工具注册表 · 健康监控。<br>
+        <strong>验证</strong>：最简 Agent 在容器中通过 LangGraph 图遍历运行，72h 不崩溃，崩溃后从检查点恢复。
+      </div>
+    </div>
+
+    <div class="phase-card p1">
+      <div class="phase-header">
+        <span class="phase-badge p1">Phase 1</span>
+        <span class="phase-title">身份 + 记忆 + 心跳（OpenClaw + Andon + Hermes）</span>
+        <span class="phase-duration">第 4-7 周</span>
+      </div>
+      <div class="phase-body">
+        <strong>目标</strong>：Agent 拥有持久身份、分层记忆和主动调度能力。<br>
+        <strong>交付物</strong>：SOUL.md 身份系统 · HEARTBEAT.md 心跳调度 · 分层压缩记忆（Long/Short/Latest）·
+        FTS5 全文搜索 · 上下文溢出自动压缩 · wait time 事件驱动等待。<br>
+        <strong>验证</strong>：Agent 连续运行 7 天，心跳定时巡检，记忆压缩正确触发，关键状态不丢失。
+      </div>
+    </div>
+
+    <div class="phase-card p2">
+      <div class="phase-header">
+        <span class="phase-badge p2">Phase 2</span>
+        <span class="phase-title">多Agent + 学习闭环（CrewAI + Hermes + Andon）</span>
+        <span class="phase-duration">第 8-11 周</span>
+      </div>
+      <div class="phase-body">
+        <strong>目标</strong>：角色化多 Agent 团队 + 自动技能生成 + Fan-out 并行。<br>
+        <strong>交付物</strong>：角色化子Agent（role/goal/backstory）· 层级 Manager Agent ·
+        Agent 间 A2A 通信 · Fan-out 并行子Agent · 学习闭环（5+工具→自动技能）· 技能自我改进。<br>
+        <strong>验证</strong>：主Agent fan-out 5个子Agent 并行调研，结果正确汇总；同类任务第二次完成速度提升。
+      </div>
+    </div>
+
+    <div class="phase-card p3">
+      <div class="phase-header">
+        <span class="phase-badge p3">Phase 3</span>
+        <span class="phase-title">治理 + 安全 + 审计（Paperclip + Andon Andonos）</span>
+        <span class="phase-duration">第 12-14 周</span>
+      </div>
+      <div class="phase-body">
+        <strong>目标</strong>：完整治理层，Agent 行为可控、可审计、可回滚。<br>
+        <strong>交付物</strong>：Supervisor Agent（Andonos式）· 审批门（高风险排队）·
+        Token 预算 · 目标祖先链 · 配置版本化+回滚 · 不可变审计日志 · Guardrail 行为监控 · 敏感信息脱敏。<br>
+        <strong>验证</strong>：Agent 违规自动检测警告，高风险操作 100% 经审批，配置可回滚，0 信息泄露。
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section" id="s8">
+    <div class="section-number">08</div>
+    <h2>核心模块代码设计</h2>
+
+    <h3>8.1 心跳调度系统（OpenClaw 式）</h3>
+    <div class="code-block">
+<span class="cmt"># core/scheduling/heartbeat.py — 借鉴 OpenClaw 心跳模式</span>
+<span class="kw">import</span> asyncio, yaml
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">class</span> <span class="cls">HeartbeatScheduler</span>:
+    <span class="str">"""心跳调度器：定时唤醒Agent，读取HEARTBEAT.md决定是否有事可做"""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, agent, interval_minutes: <span class="type">int</span> = <span class="num">30</span>):
+        self.agent = agent
+        self.interval = interval_minutes * <span class="num">60</span>
+        self.heartbeat_file = Path(<span class="str">"HEARTBEAT.md"</span>)
+
+    <span class="kw">async def</span> <span class="fn">start</span>(self):
+        <span class="str">"""启动心跳循环"""</span>
+        <span class="kw">while</span> <span class="kw">True</span>:
+            <span class="kw">await</span> asyncio.<span class="fn">sleep</span>(self.interval)
+            <span class="kw">await</span> self.<span class="fn">_tick</span>()
+
+    <span class="kw">async def</span> <span class="fn">_tick</span>(self):
+        <span class="cmt"># 1. 读取 HEARTBEAT.md 任务清单</span>
+        tasks = self.<span class="fn">_parse_heartbeat</span>(self.heartbeat_file.<span class="fn">read_text</span>())
+
+        <span class="cmt"># 2. 对每项任务，让 Agent 判断是否需要行动</span>
+        <span class="kw">for</span> task <span class="kw">in</span> tasks:
+            result = <span class="kw">await</span> self.agent.<span class="fn">evaluate</span>(task)
+
+            <span class="cmt"># 3. HEARTBEAT_OK = 无事可做，静默丢弃</span>
+            <span class="kw">if</span> result == <span class="str">"HEARTBEAT_OK"</span>:
+                <span class="kw">continue</span>
+
+            <span class="cmt"># 4. 有事可做，执行并投递结果</span>
+            <span class="kw">await</span> self.agent.<span class="fn">execute_and_deliver</span>(task, result)
+
+    <span class="kw">def</span> <span class="fn">_parse_heartbeat</span>(self, content: <span class="type">str</span>) -> <span class="type">list</span>[<span class="type">str</span>]:
+        <span class="str">"""解析 Markdown 清单为任务列表"""</span>
+        <span class="kw">return</span> [
+            line.<span class="fn">lstrip</span>(<span class="str">"- "</span>).<span class="fn">strip</span>()
+            <span class="kw">for</span> line <span class="kw">in</span> content.<span class="fn">splitlines</span>()
+            <span class="kw">if</span> line.<span class="fn">strip</span>().<span class="fn">startswith</span>(<span class="str">"- "</span>)
+        ]
+    </div>
+
+    <h3>8.2 学习闭环（Hermes 式）</h3>
+    <div class="code-block">
+<span class="cmt"># core/learning/learning_loop.py — 借鉴 Hermes 学习闭环</span>
+<span class="kw">class</span> <span class="cls">LearningLoop</span>:
+    <span class="str">"""学习闭环：完成复杂任务后自动生成可复用技能</span>
+<span class="str">    借鉴 Hermes Agent 的 5 步学习闭环</span>
+<span class="str">    """</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, llm, skill_store, fts5_index):
+        self.llm = llm
+        self.skills = skill_store
+        self.fts5 = fts5_index  <span class="cmt"># SQLite FTS5 全文搜索</span>
+
+    <span class="kw">async def</span> <span class="fn">retrieve_relevant_skills</span>(self, task_desc: <span class="type">str</span>) -> <span class="type">list</span>:
+        <span class="str">"""检索相关技能：FTS5 全文搜索，~10ms"""</span>
+        results = <span class="kw">await</span> self.fts5.<span class="fn">search</span>(task_desc, limit=<span class="num">10</span>)
+        <span class="kw">return</span> [<span class="kw">await</span> self.skills.<span class="fn">load</span>(r[<span class="str">"id"</span>]) <span class="kw">for</span> r <span class="kw">in</span> results]
+
+    <span class="kw">async def</span> <span class="fn">maybe_create_skill</span>(self, task, result):
+        <span class="str">"""如果任务涉及 5+ 工具调用，自动生成技能文件"""</span>
+        <span class="kw">if</span> <span class="fn">len</span>(result.tool_calls) < <span class="num">5</span>:
+            <span class="kw">return</span>  <span class="cmt"># 简单任务不生成技能</span>
+
+        skill = <span class="kw">await</span> self.llm.<span class="fn">generate</span>(
+            prompt=<span class="fn">f</span><span class="str">"""基于以下任务和结果，创建一个可复用的技能文件。
+
+            任务：{task.description}
+            使用工具：{result.tool_calls}
+            结果：{result.summary}
+            成功：{result.success}
+
+            输出格式（agentskills.io 标准）：
+            ---
+            name: <技能名>
+            description: <何时使用>
+            steps: <执行步骤>
+            tools: <需要的工具>
+            ---</span>
+            """</span>
+        )
+
+        skill_id = <span class="kw">await</span> self.skills.<span class="fn">save</span>(skill)
+        <span class="kw">await</span> self.fts5.<span class="fn">index</span>(skill_id, skill)
+        <span class="kw">return</span> skill_id
+
+    <span class="kw">async def</span> <span class="fn">improve_skill</span>(self, skill_id: <span class="type">str</span>, execution_feedback: <span class="type">dict</span>):
+        <span class="str">"""使用技能时评估效果，发现更优解自动更新</span>
+<span class="str">        形成"创建 → 使用 → 评估 → 优化"闭环</span>
+<span class="str">        """</span>
+        skill = <span class="kw">await</span> self.skills.<span class="fn">load</span>(skill_id)
+
+        <span class="kw">if</span> execution_feedback[<span class="str">"better_approach_found"</span>]:
+            updated = <span class="kw">await</span> self.llm.<span class="fn">generate</span>(
+                prompt=<span class="fn">f</span><span class="str">"更新技能 {skill_id}：{execution_feedback['improvement']}"</span>
+            )
+            <span class="kw">await</span> self.skills.<span class="fn">update</span>(skill_id, updated)
+    </div>
+
+    <h3>8.3 治理层（Paperclip + Andonos 式）</h3>
+    <div class="code-block">
+<span class="cmt"># governance/approval_gate.py — 借鉴 Paperclip 审批门</span>
+<span class="kw">class</span> <span class="cls">ApprovalGate</span>:
+    <span class="str">"""审批门：高风险操作排队等待人类审批</span>
+<span class="str">    借鉴 Paperclip 的 approval gates + budget enforcement</span>
+<span class="str">    """</span>
+
+    <span class="kw">async def</span> <span class="fn">check_and_maybe_block</span>(self, action: <span class="type">dict</span>) -> <span class="type">bool</span>:
+        <span class="cmt"># 1. 检查是否需要审批</span>
+        <span class="kw">if</span> <span class="kw">not</span> self.<span class="fn">_needs_approval</span>(action):
+            <span class="kw">return</span> <span class="kw">True</span>  <span class="cmt"># 直接放行</span>
+
+        <span class="cmt"># 2. 检查 Token 预算</span>
+        role = action[<span class="str">"agent_role"</span>]
+        <span class="kw">if</span> <span class="kw">not</span> self.budget.<span class="fn">can_spend</span>(role, action[<span class="str">"estimated_tokens"</span>]):
+            <span class="kw">await</span> self.<span class="fn">_notify_budget_exceeded</span>(role, action)
+            <span class="kw">return</span> <span class="kw">False</span>
+
+        <span class="cmt"># 3. 排入审批队列，推送通知</span>
+        approval = <span class="kw">await</span> self.<span class="fn">_request_human_approval</span>(action)
+        <span class="kw">return</span> approval.approved
+
+    <span class="kw">def</span> <span class="fn">_needs_approval</span>(self, action: <span class="type">dict</span>) -> <span class="type">bool</span>:
+        <span class="cmt"># 付款、签合同、对外发送敏感信息 → 需审批</span>
+        <span class="kw">return</span> action.<span class="fn">get</span>(<span class="str">"requires_approval"</span>, <span class="kw">False</span>) <span class="kw">or</span> \
+               action.<span class="fn">get</span>(<span class="str">"amount"</span>, <span class="num">0</span>) > self.approval_threshold
+
+<span class="cmt"># governance/config_versioning.py — 借鉴 Paperclip 配置版本化</span>
+<span class="kw">class</span> <span class="cls">ConfigVersioning</span>:
+    <span class="str">"""配置版本化：坏变更一键回滚</span>
+<span class="str">    借鉴 Paperclip 的 revisioned config + one-click rollback</span>
+<span class="str">    """</span>
+
+    <span class="kw">async def</span> <span class="fn">save_version</span>(self, config: <span class="type">dict</span>):
+        <span class="cmt"># 每次配置变更创建新版本</span>
+        version_id = <span class="fn">str</span>(uuid.<span class="fn">uuid4</span>())
+        <span class="kw">await</span> self.db.<span class="fn">save</span>(version_id, config, timestamp=time.<span class="fn">time</span>())
+        <span class="kw">return</span> version_id
+
+    <span class="kw">async def</span> <span class="fn">rollback</span>(self, target_version: <span class="type">str</span>):
+        <span class="cmt"># 一键回滚到指定版本</span>
+        config = <span class="kw">await</span> self.db.<span class="fn">load</span>(target_version)
+        <span class="kw">await</span> self.<span class="fn">_apply_config</span>(config)
+        <span class="kw">await</span> self.audit.<span class="fn">record</span>(<span class="str">"config_rollback"</span>, target_version)
+    </div>
+
+    <h3>8.4 检查点系统（LangGraph 式）</h3>
+    <div class="code-block">
+<span class="cmt"># infra/checkpoint.py — 借鉴 LangGraph 检查点 + Delta Channels</span>
+<span class="kw">from</span> langgraph.checkpoint.postgres <span class="kw">import</span> PostgresSaver
+<span class="kw">from</span> langgraph.store.postgres <span class="kw">import</span> PostgresStore
+
+<span class="cmt"># 生产级配置：PostgreSQL 后端</span>
+DB_URI = <span class="str">"postgresql://user:pass@localhost:5432/agent_db"</span>
+
+<span class="kw">async def</span> <span class="fn">create_graph_with_checkpointing</span>():
+    <span class="cmt"># Checkpointer：短期记忆，每步自动快照</span>
+    checkpointer = PostgresSaver.<span class="fn">from_conn_string</span>(DB_URI)
+    <span class="kw">await</span> checkpointer.<span class="fn">setup</span>()
+
+    <span class="cmt"># Store：长期记忆，跨会话</span>
+    store = PostgresStore.<span class="fn">from_conn_string</span>(DB_URI)
+    <span class="kw">await</span> store.<span class="fn">setup</span>()
+
+    <span class="cmt"># 构建图</span>
+    builder = StateGraph(AgentState, context_schema=Context)
+    builder.<span class="fn">add_node</span>(<span class="str">"load_soul"</span>, load_soul_node)
+    builder.<span class="fn">add_node</span>(<span class="str">"retrieve_memory"</span>, retrieve_memory_node)
+    builder.<span class="fn">add_node</span>(<span class="str">"reason"</span>, reason_node)
+    builder.<span class="fn">add_node</span>(<span class="str">"execute_tools"</span>, execute_tools_node)
+    builder.<span class="fn">add_node</span>(<span class="str">"maybe_learn"</span>, maybe_learn_node)  <span class="cmt"># Hermes 学习闭环</span>
+    builder.<span class="fn">add_node</span>(<span class="str">"persist"</span>, persist_node)
+
+    <span class="cmt"># 条件边</span>
+    builder.<span class="fn">add_conditional_edges</span>(<span class="str">"reason"</span>, should_use_tools)
+    builder.<span class="fn">add_conditional_edges</span>(<span class="str">"execute_tools"</span>, should_continue_or_finish)
+
+    <span class="cmt"># interrupt 节点：高风险操作暂停等审批（← LangGraph + Paperclip）</span>
+    builder.<span class="fn">add_node</span>(<span class="str">"approval_check"</span>, approval_check_node)
+
+    graph = builder.<span class="fn">compile</span>(
+        checkpointer=checkpointer,
+        store=store,
+        interrupt_before=[<span class="str">"approval_check"</span>],  <span class="cmt"># 审批前暂停</span>
+    )
+    <span class="kw">return</span> graph
+    </div>
+  </div>
+
+  <!-- Section 9 -->
+  <div class="section" id="s9">
+    <div class="section-number">09</div>
+    <h2>技术选型与对比</h2>
+
+    <h3>9.1 编排框架选型</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>候选</th><th>Stars</th><th>优势</th><th>劣势</th><th>选型建议</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>LangGraph</strong></td>
+          <td>44K</td>
+          <td>图状态机、检查点、Delta Channels、interrupt、生产级、PostgreSQL</td>
+          <td>学习曲线陡（2-3周）</td>
+          <td><strong>✅ 选定</strong></td>
+        </tr>
+        <tr>
+          <td>CrewAI</td>
+          <td>53K</td>
+          <td>角色化、Cognitive Memory、层级 Manager</td>
+          <td>编排灵活度不如图</td>
+          <td>借鉴角色化概念</td>
+        </tr>
+        <tr>
+          <td>OpenClaw</td>
+          <td>373K</td>
+          <td>心跳、文件式、极简</td>
+          <td>TypeScript、单Agent导向</td>
+          <td>借鉴心跳/身份模式</td>
+        </tr>
+        <tr>
+          <td>Hermes</td>
+          <td>95.6K</td>
+          <td>学习闭环、三层记忆</td>
+          <td>API 不稳定（v0.x）</td>
+          <td>借鉴学习闭环设计</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box">
+      <div class="label">选型理由</div>
+      <p>
+        选 LangGraph 作为编排骨架，因为它提供了<strong>生产级检查点系统</strong>（崩溃恢复必备）、
+        <strong>图状态机</strong>（比纯prompt更可控）、<strong>interrupt 机制</strong>（人机协作审批门）和
+        <strong>Delta Channels</strong>（解决长期运行存储增长）。
+        其他项目的精华以<strong>设计模式</strong>而非框架依赖的方式融入——避免被单一框架锁定。
+      </p>
+    </div>
+
+    <h3>9.2 完整技术栈</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>层次</th><th>选型</th><th>来源</th><th>理由</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>编排骨架</td><td>LangGraph</td><td>LangChain</td><td>图状态机 + 检查点 + interrupt</td></tr>
+        <tr><td>主语言</td><td>Python 3.12+</td><td>—</td><td>AI生态 + 团队熟悉</td></tr>
+        <tr><td>LLM 调用</td><td>OpenAI SDK / Anthropic SDK</td><td>—</td><td>多模型支持</td></tr>
+        <tr><td>身份系统</td><td>SOUL.md + HEARTBEAT.md</td><td>OpenClaw</td><td>人可读、可git、可grep</td></tr>
+        <tr><td>记忆架构</td><td>分层压缩（Long/Short/Latest）</td><td>Andon + Letta</td><td>全量注入 > 主动检索</td></tr>
+        <tr><td>全文搜索</td><td>SQLite FTS5</td><td>Hermes</td><td>10ms/10K文档，极简部署</td></tr>
+        <tr><td>检查点存储</td><td>PostgreSQL + PostgresSaver</td><td>LangGraph</td><td>生产级持久化</td></tr>
+        <tr><td>Delta 存储</td><td>Delta Channels</td><td>LangGraph</td><td>增量存储，O(1)增长</td></tr>
+        <tr><td>学习闭环</td><td>技能自动生成 + 自我改进</td><td>Hermes</td><td>40%速度提升</td></tr>
+        <tr><td>角色化Agent</td><td>role/goal/backstory + Manager</td><td>CrewAI</td><td>多Agent团队协作</td></tr>
+        <tr><td>治理层</td><td>审批门 + Token预算 + 目标祖先链</td><td>Paperclip</td><td>Agent可控可审计</td></tr>
+        <tr><td>监督Agent</td><td>Andonos 式 Supervisor</td><td>Andon Labs</td><td>用Agent监督Agent</td></tr>
+        <tr><td>审计日志</td><td>PostgreSQL 不可变日志</td><td>Paperclip</td><td>全程追踪</td></tr>
+        <tr><td>配置版本化</td><td>Git + 版本表</td><td>Paperclip</td><td>一键回滚</td></tr>
+        <tr><td>容器运行时</td><td>Docker + Docker Compose</td><td>—</td><td>隔离、可观测、可重启</td></tr>
+        <tr><td>事件总线</td><td>Redis Pub/Sub</td><td>—</td><td>Agent间通信、事件唤醒</td></tr>
+        <tr><td>监控告警</td><td>Grafana + Prometheus</td><td>—</td><td>心跳/性能可视化</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 10 -->
+  <div class="section" id="s10">
+    <div class="section-number">10</div>
+    <h2>风险评估与验收标准</h2>
+
+    <h3>10.1 风险评估</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>风险</th><th>概率</th><th>影响</th><th>对策</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>LangGraph 学习曲线陡</strong></td>
+          <td>中</td><          <td>中</td>
+          <td>Phase 0 给 2 周学习时间；用最简图验证；参考 LangGraph 官方示例</td>
+        </tr>
+        <tr>
+          <td><strong>技能自动生成质量不稳定</strong></td>
+          <td>中</td>
+          <td>中</td>
+          <td>初期人工审核所有自动技能；设阈值（仅 5+ 工具调用任务生成）；技能自我改进闭环</td>
+        </tr>
+        <tr>
+          <td><strong>FTS5 规模瓶颈</strong></td>
+          <td>低</td>
+          <td>中</td>
+          <td>10K+ 文档后评估迁移到 Qdrant/Weaviate；FTS5 接口抽象化，可无缝替换</td>
+        </tr>
+        <tr>
+          <td><strong>记忆压缩丢失关键信息</strong></td>
+          <td>中</td>
+          <td>高</td>
+          <td>压缩前保存完整快照到 PostgreSQL；关键状态用结构化 KV 补充</td>
+        </tr>
+        <tr>
+          <td><strong>Agent Meltdown</strong></td>
+          <td>高</td>
+          <td>高</td>
+          <td>心跳检测重复输出 + 工具退化；自动重启 + 检查点恢复</td>
+        </tr>
+        <tr>
+          <td><strong>治理规则误报</strong></td>
+          <td>中</td>
+          <td>中</td>
+          <td>规则分级（LOW/MEDIUM/HIGH/CRITICAL）；LOW仅记录不阻断</td>
+        </tr>
+        <tr>
+          <td><strong>多Agent通信死锁</strong></td>
+          <td>低</td>
+          <td>高</td>
+          <td>所有Agent间通信设超时；超时自动终止并报告；环形检测</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>10.2 验收标准</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th>阶段</th><th>指标</th><th>目标值</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>P0</td><td>连续运行不崩溃</td><td>≥ 72 小时</td></tr>
+        <tr><td>P0</td><td>崩溃后恢复时间</td><td>≤ 30 秒（从检查点）</td></tr>
+        <tr><td>P1</td><td>连续运行不崩溃</td><td>≥ 7 天</td></tr>
+        <tr><td>P1</td><td>记忆压缩触发率</td><td>上下文>75%时 100% 触发</td></tr>
+        <tr><td>P1</td><td>FTS5 检索延迟</td><td>≤ 10ms / 10K 文档</td></tr>
+        <tr><td>P1</td><td>心跳准时率</td><td>≥ 99%</td></tr>
+        <tr><td>P2</td><td>并行子Agent数量</td><td>≥ 5 个同时</td></tr>
+        <tr><td>P2</td><td>技能复用速度提升</td><td>同类任务第二次完成快 20%+</td></tr>
+        <tr><td>P2</td><td>子Agent异常隔离率</td><td>100%</td></tr>
+        <tr><td>P3</td><td>违规检测率</td><td>≥ 95%</td></tr>
+        <tr><td>P3</td><td>高风险操作审批率</td><td>100%</td></tr>
+        <tr><td>P3</td><td>配置回滚成功率</td><td>100%</td></tr>
+        <tr><td>P3</td><td>敏感信息泄露</td><td>0 次</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box">
+      <div class="label">最终验收标准</div>
+      <p>
+        系统在真实业务环境中连续运行 <strong>14 天</strong>：无崩溃、无信息泄露、记忆压缩正确触发、
+        心跳定时巡检、同类任务技能复用 20%+ 速度提升、高风险操作 100% 经审批、
+        Meltdown 自动检测恢复、人类介入 ≤ 3 次。达标即视为方案落地成功。
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>GitHub 长周期自治智能体高星项目调研与技术方案 · 2026年9月 · 数据来源：GitHub + andonlabs.com</p>
+  </div>
+
+</div>
+</body>
+</html>
